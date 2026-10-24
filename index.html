@@ -1,953 +1,107 @@
-
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101a36">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>ユウトの伝説 V3.6</title>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111a36"><meta name="apple-mobile-web-app-capable" content="yes"><title>ユウトの伝説 V3.7</title>
 <style>
-:root{
- --bg:#101a36;--panel:#26375b;--line:#536c9d;
- --gold:#ffdb65;--blue:#49bff3;--red:#ff6672;
- --green:#71e4a4
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:white;
- font-family:-apple-system,"Hiragino Kaku Gothic ProN",sans-serif}
-main{max-width:720px;margin:auto;padding:16px 15px 80px}
-h1{color:var(--gold);font-size:28px}
-h2{font-size:20px;margin:0 0 12px}
-h3{font-size:16px}
-p{line-height:1.5}
-small,.muted{color:#b9c9e7}
-button,input,select,textarea{font:inherit}
-button{border:0;border-radius:13px;padding:12px;
- font-weight:800;cursor:pointer}
-button:disabled{opacity:.4}
-input,select,textarea{width:100%;border-radius:12px;
- border:2px solid #9aaccf;padding:12px;
- background:white;color:#172442}
-textarea{min-height:70px}
-label{display:block;margin:12px 0 6px}
-.gold{background:var(--gold);color:#172442}
-.blue{background:var(--blue);color:#172442}
-.green{background:var(--green);color:#17372c}
-.gray{background:#455a80;color:white}
-.red{background:var(--red);color:white}
-.wide{width:100%;margin-top:10px}
-.hidden{display:none!important}
-.panel{background:var(--panel);border:2px solid var(--line);
- border-radius:20px;padding:15px;margin:12px 0}
-.shell{border:5px solid #637597;border-radius:28px;
- background:#1b2949;padding:10px;position:relative}
-.shell:before,.shell:after{content:"";position:absolute;
- width:8px;height:90px;top:60px;border-radius:10px}
-.shell:before{left:-9px;background:var(--red)}
-.shell:after{right:-9px;background:var(--blue)}
-.row{display:flex;align-items:center;gap:8px}
-.row>*{min-width:0}
-.row input{flex:1}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.three{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.tag{display:inline-block;background:#344971;border-radius:30px;
- padding:7px 12px;font-size:12px}
-.status{background:#394d76;border-radius:12px;padding:12px;
- font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
-.ok{border-left:5px solid var(--green)}
-.err{border-left:5px solid var(--red)}
-.hero{text-align:center;background:linear-gradient(140deg,#344e81,#233455)}
-.monster{font-size:70px}
-.bar{height:16px;border-radius:20px;background:#4b5b7c;overflow:hidden}
-.bar div{height:100%;background:linear-gradient(90deg,#ffe26d,#ff9952)}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tab{background:#425780;color:white}
-.tab.active{background:var(--gold);color:#172442}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:#34486f;border-radius:13px;text-align:center;padding:10px 4px}
-.stat button{background:none;color:white;width:100%;padding:2px}
-.stat b{display:block;color:var(--gold);font-size:25px}
-.stat span{font-size:12px}
-.quest-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
- margin:15px 0}
-.quest-tab{background:#34496e;color:white;border:2px solid #647eb0;
- min-height:90px;font-size:27px;display:flex;flex-direction:column;
- align-items:center;justify-content:center;gap:5px}
-.quest-tab span{font-size:16px}
-.quest-tab.active{background:linear-gradient(145deg,#ffe77e,#ffb844);
- color:#182440;border-color:#fff2b1;box-shadow:0 4px 0 #9d7429}
-.quest{background:#344a73;border-radius:15px;padding:13px;margin:10px 0}
-.quest-title{font-weight:800;overflow-wrap:anywhere}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
-.steps button{font-size:12px;padding:11px 3px}
-.preset{width:100%;background:#3d557f;color:white;
- margin:5px 0;text-align:left}
-.detail{background:#34476d;border-radius:12px;padding:12px;margin:9px 0}
-.divider{border:0;border-top:1px solid #60759c;margin:12px 0}
-footer{text-align:center;color:#aebcdb;font-size:12px;margin-top:22px}
-</style>
-</head>
-<body>
-<main>
-<span class="tag">🎮 YUTO QUEST V3.6</span>
-<h1>⚡ ユウトの伝説 ⚡</h1>
-<p class="muted">自分で決める。自分で始める。ぼくの冒険！</p>
-<div class="shell">
-
-<section id="loginPanel" class="panel">
-<h2>🔐 冒険をはじめよう</h2>
-<label>メールアドレス</label>
-<input id="email" type="email" autocomplete="username">
-<label>パスワード</label>
-<input id="password" type="password" autocomplete="current-password">
-<button id="login" class="gold wide">🎮 ログイン</button>
-<p id="loginStatus" class="status">ログインしてください。</p>
-</section>
-
-<div id="app" class="hidden">
-
-<div class="panel">
-<div class="row" style="justify-content:space-between">
-<small id="account"></small>
-<button id="logout" class="gray">ログアウト</button>
-</div>
-<h3>☁️ クラウド同期</h3>
-<div id="syncStatus" class="status">接続中…</div>
-<div class="two" style="margin-top:10px">
-<button id="reload" class="blue">🔄 最新データ</button>
-<button id="save" class="gold">☁️ 保存</button>
-</div>
-</div>
-
-<div class="tabs">
-<button id="childTab" class="tab active">🎮 ユウト</button>
-<button id="parentTab" class="tab">👑 お母さん</button>
-</div>
-
-<section id="child">
-
-<div class="panel hero">
-<div id="monster" class="monster">🐲</div>
-<h2 id="level">LEVEL 1</h2>
-<p id="monsterName">はじまりのドラゴン</p>
-<h3 id="xp">⭐ 0 EXP</h3>
-<div class="bar"><div id="bar"></div></div>
-<small>100 EXPでレベルアップ！</small>
-</div>
-
-<div class="stats">
-<div class="stat">
-<button data-history="total"><b id="totalDone">0</b>
-<span>🏆 クリア ↗</span></button>
-</div>
-<div class="stat">
-<button data-history="today"><b id="todayDone">0</b>
-<span>⭐ 今日の達成 ↗</span></button>
-</div>
-<div class="stat">
-<button data-history="streak"><b id="streak">0</b>
-<span>🔥 連続日数 ↗</span></button>
-</div>
-</div>
-
-<div id="historyPanel" class="panel hidden">
-<div class="row" style="justify-content:space-between">
-<h2 id="historyTitle">📖 成長の記録</h2>
-<button id="closeHistory" class="gray">✕</button>
-</div>
-<div id="historyContent"></div>
-</div>
-
-<div class="panel">
-<h2>🗓️ 冒険の日付</h2>
-<div class="two">
-<button id="selectToday" class="gold">📅 今日</button>
-<button id="selectCustom" class="blue">🗓️ 自分で選ぶ</button>
-</div>
-<div id="dateWrap" class="hidden">
-<label>日付を選ぼう</label>
-<input id="missionDate" type="date">
-</div>
-<p id="dateLabel" class="muted"></p>
-<div id="dailySummary"></div>
-<button id="noMission" class="gray wide">🌿 今日はミッションなし</button>
-</div>
-
-<div class="panel">
-<h2>⚔️ ミッションを選ぼう！</h2>
-<div class="quest-tabs">
-<button class="quest-tab active" data-tab="school">🏫<span>学校</span></button>
-<button class="quest-tab" data-tab="juku">📚<span>塾</span></button>
-<button class="quest-tab" data-tab="english">⚡<span>英語</span></button>
-</div>
-
-<div id="questHeading"></div>
-<div id="questList"></div>
-
-<button id="togglePresets" class="blue wide">＋ ミッションを選ぶ</button>
-<div id="presets" class="hidden"></div>
-
-<hr class="divider">
-<h3>✏️ 自分でミッションを作る</h3>
-<div class="row">
-<input id="customMission" maxlength="80"
-placeholder="自分で決めたミッション">
-<button id="addCustom" class="gold">＋追加</button>
-</div>
-</div>
-
-<div class="panel">
-<h2>🌱 成長サブクエスト</h2>
-<div class="three">
-<button class="gray" data-side="life">🏠 生活</button>
-<button class="gray" data-side="heart">💖 人として</button>
-<button class="gray" data-side="challenge">🚀 挑戦</button>
-</div>
-<div id="sidePresets"></div>
-<div id="sideMissions"></div>
-</div>
-
-<div class="panel">
-<h2>🪙 ポイントを使う</h2>
-<div class="two">
-<div class="stat">これまでのEXP<b id="earned">0</b></div>
-<div class="stat">使えるポイント<b id="available">0</b></div>
-</div>
-<label>使うポイント</label>
-<input id="spendAmount" type="number" min="1" step="1">
-<label>何に使う？</label>
-<input id="spendReason" maxlength="80"
-placeholder="例：自由時間10分">
-<button id="spend" class="gold wide">🪙 ポイントを使う</button>
-<h3>📜 利用履歴</h3>
-<div id="spendHistory"></div>
-</div>
-
-<div class="panel">
-<h2>🔐 6つの数字を集めよう！</h2>
-<p class="muted">学校・塾・英語のミッションをクリアしよう。</p>
-<div id="rewardDigits" style="font-size:27px;text-align:center;
- letter-spacing:4px;color:var(--gold)">🔒 🔒 🔒 🔒 🔒 🔒</div>
-</div>
-
-<div class="panel">
-<h2>🎁 ひみつの宝箱</h2>
-<p style="text-align:center;font-size:65px;margin:8px">🧰</p>
-<p id="chestStatus" style="text-align:center"></p>
-<button id="openChest" class="gold wide">🎁 宝箱を開ける</button>
-<p id="giftResult" style="text-align:center"></p>
-</div>
-
-<div class="panel">
-<h2>📖 冒険日記</h2>
-<label>今日、自分でできたこと</label>
-<textarea id="good"></textarea>
-<label>次にチャレンジしたいこと</label>
-<textarea id="tomorrow"></textarea>
-<button id="review" class="blue wide">📖 日記を保存</button>
-</div>
-
-</section>
-
-<section id="parent" class="hidden">
-<div class="panel">
-<h2>👑 お母さんの秘密基地</h2>
-<div id="locked">
-<label>お母さんのPIN</label>
-<input id="pin" type="password" inputmode="numeric">
-<button id="unlock" class="gold wide">🔓 ロック解除</button>
-<small>初回は4桁以上のPINを設定してください。
-これは簡易的な画面ロックです。</small>
-</div>
-
-<div id="parentContent" class="hidden">
-<h3>🔐 PIN変更</h3>
-<input id="newPin" type="password" inputmode="numeric">
-<button id="setPin" class="gray wide">PINを変更</button>
-
-<h3>🎯 今日の6桁コード</h3>
-<small>本物のiPadロック解除パスコードは入力しないでください。</small>
-<input id="dailyCode" maxlength="6" inputmode="numeric"
-placeholder="6桁のゲーム用コード">
-<button id="setCode" class="blue wide">コードを保存</button>
-
-<h3>🎁 ひみつのプレゼント</h3>
-<input id="gift" placeholder="例：週末のお楽しみ">
-<label>宝箱を開けるレベル</label>
-<select id="giftLevel">
-<option value="3">LEVEL 3</option>
-<option value="5">LEVEL 5</option>
-<option value="10">LEVEL 10</option>
-</select>
-<button id="setGift" class="gold wide">プレゼントを保存</button>
-
-<h3>🌷 お母さんの成長</h3>
-<div id="momChecks"></div>
-<button id="lock" class="gray wide">🔒 ロック</button>
-</div>
-</div>
-</section>
-</div>
-</div>
-<footer>YUTO QUEST V3.6 · ユウト株式会社</footer>
-</main>
-
+:root{--bg:#111a36;--panel:#263657;--edge:#52699b;--gold:#ffda72;--blue:#4dc2f5;--red:#ff626d;--green:#74e3a7}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",sans-serif}main{max-width:740px;margin:auto;padding:16px 15px 75px}h1{font-size:28px;color:var(--gold)}h2{font-size:21px;margin:0 0 12px}h3{font-size:17px}p{line-height:1.55}.sub{color:#bac8e6}.small{font-size:12px}.shell{position:relative;border:5px solid #697997;background:#1c2847;border-radius:30px;padding:12px;box-shadow:0 16px 40px #0006}.shell:before,.shell:after{content:"";position:absolute;top:55px;width:9px;height:100px;border-radius:10px}.shell:before{left:-9px;background:var(--red)}.shell:after{right:-9px;background:var(--blue)}.panel{background:var(--panel);border:2px solid var(--edge);border-radius:19px;padding:16px;margin:13px 0}.hero{text-align:center;background:linear-gradient(140deg,#324b7d,#233354)}.monster{font-size:67px}.bar{height:15px;border-radius:20px;background:#50607e;overflow:hidden}.bar div{height:100%;background:linear-gradient(90deg,#ffdb69,#ff9256)}button,input,select,textarea{font:inherit}button{border:0;border-radius:12px;padding:11px 12px;font-weight:800;cursor:pointer}button:disabled{opacity:.4}input,textarea,select{width:100%;background:#fff;color:#15233c;border:2px solid #a5b4d1;border-radius:12px;padding:11px}textarea{min-height:72px}label{display:block;margin:10px 0 6px}.gold{background:var(--gold);color:#182340}.blue{background:var(--blue);color:#142a41}.gray{background:#475b81;color:white}.green{background:var(--green);color:#14392d}.red{background:var(--red);color:white}.wide{width:100%;margin-top:10px}.row{display:flex;align-items:center;gap:8px}.row>*{min-width:0}.row input{flex:1}.row button{flex-shrink:0}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tab{background:#43557b;color:white}.tab.on{background:var(--gold);color:#17233b}.hidden{display:none!important}.status{white-space:pre-wrap;overflow-wrap:anywhere;background:#394c72;padding:12px;border-radius:12px;font-size:13px}.ok{border-left:5px solid var(--green)}.err{border-left:5px solid var(--red)}.stat{text-align:center;background:#36486f;border-radius:13px;padding:11px 5px}.stat b{display:block;font-size:23px;color:var(--gold)}.stat-button{display:block;width:100%;height:100%;background:transparent;color:white;padding:4px 2px;border:0;cursor:pointer}.stat-button:focus-visible{outline:3px solid var(--gold)}.stat-button b{display:block;font-size:23px;color:var(--gold)}.stat-button span{display:block}.stat-button .small{font-size:12px}.history-day{padding:12px;background:#34476b;border-radius:12px;margin:9px 0}.history-day h3{margin:0 0 8px}.history-task{padding:6px 0;border-top:1px solid #506487;overflow-wrap:anywhere}.history-delta{font-size:22px;font-weight:900;color:var(--gold)}.history-note{font-size:12px;color:#c1cfea}.history-actions{display:flex;gap:8px;justify-content:space-between;align-items:center}.mission{background:#34476b;border-radius:13px;padding:12px;margin:10px 0}.mission.done{opacity:.75}.reset-row{display:flex;justify-content:flex-end;margin-top:9px}.reset-row button{font-size:12px;padding:7px 10px}.mission-title{font-weight:800;overflow-wrap:anywhere}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.steps button{font-size:12px;padding:10px 4px}.chip{display:inline-block;border-radius:20px;background:#455b85;padding:5px 9px;font-size:12px;margin:2px}.cat{border-left:5px solid var(--blue)}.code{font-size:28px;letter-spacing:6px;font-weight:900;color:var(--gold);text-align:center}.choice{background:#34476b;border-radius:12px;padding:10px;margin:7px 0}.footer{text-align:center;color:#aebddd;font-size:12px;margin-top:24px}.tag{display:inline-block;background:#34486e;border-radius:20px;padding:6px 11px;font-size:12px}.hint{font-size:12px;color:#b9c8e6}.inlinecheck{width:auto;margin-right:8px}details{margin-top:9px}summary{cursor:pointer;font-weight:700}#toast{position:fixed;left:12px;right:12px;bottom:15px;max-width:600px;margin:auto;padding:13px;border-radius:14px;background:#ffe18b;color:#1b2841;text-align:center;font-weight:800;z-index:9;display:none}
+.quest-hub{background:linear-gradient(160deg,#253b66,#1b2949);border-color:#667fc2}.quest-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0}.quest-tab{min-height:86px;border:2px solid #667aab;border-radius:17px;background:#34476f;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:28px;transition:transform .15s,background .15s}.quest-tab span{font-size:16px}.quest-tab.active{background:linear-gradient(140deg,#ffe47c,#ffb944);color:#142340;border-color:#fff0a5;box-shadow:0 5px 0 #b8872f;transform:translateY(-3px)}.quest-pane{min-height:110px}.quest-sub{font-weight:900;font-size:17px;color:#ffdf7a;margin:10px 0}.quest-add{width:100%;background:#42bbed;color:#112842;font-size:15px;margin-top:12px}.quest-preset-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}.quest-preset-grid button{width:100%;text-align:left;background:#3d547d;color:white;border:1px solid #7088b7;font-size:14px}.quest-preset-grid button:active{transform:scale(.98)}.quest-mini{color:#bfcee9;font-size:12px}.panel{margin:11px 0}.hero{padding:12px}.hero .monster{font-size:55px}@media(min-width:560px){.quest-preset-grid{grid-template-columns:1fr 1fr}}
+.reset-row .red{font-size:13px;padding:9px 13px;margin-left:7px}.quest-pane .row{margin-top:10px}.quest-pane .row button{flex-shrink:0}</style></head><body><main><span class="tag">🎮 YUTO QUEST V3.7</span><h1>⚡ ユウトの伝説 ⚡</h1><p class="sub">自分で決める。自分で始める。ぼくの冒険！</p><div class="shell">
+<section id="loginPanel" class="panel"><h2>🔐 冒険をはじめよう</h2><label>メールアドレス</label><input id="email" type="email" autocomplete="username"><label>パスワード</label><input id="password" type="password" autocomplete="current-password"><button id="login" class="gold wide">🎮 ログイン</button><p id="loginStatus" class="status">家族のアカウントでログインしてください。</p></section>
+<div id="app" class="hidden"><div class="panel"><div class="row" style="justify-content:space-between"><span id="account" class="small sub"></span><button id="logout" class="gray">ログアウト</button></div><h3>☁️ クラウド同期</h3><div id="syncStatus" class="status">接続中…</div><div class="two" style="margin-top:10px"><button id="reload" class="blue">🔄 最新データ</button><button id="save" class="gold">☁️ 保存</button></div><p class="hint">変更は自動保存。未保存のときは自動読み込みしません。</p></div>
+<div class="tabs"><button id="childTab" class="tab on">🎮 ユウトの冒険</button><button id="parentTab" class="tab">👑 お母さん</button></div>
+<section id="child"><div class="panel hero"><div id="monster" class="monster">🐲</div><h2 id="level">LEVEL 1</h2><p id="monsterName">はじまりのドラゴン</p><p id="xp">⭐ 0 EXP</p><div class="bar"><div id="bar"></div></div><p class="hint">100 EXPでレベルアップ！</p></div><div class="panel"><h2>🪙 ポイントを使う</h2><p class="hint">EXPはレベルアップの記録として残るよ。使えるポイントだけが減ります。</p><div class="two"><div class="stat">これまでのEXP<b id="earnedPoints">0</b></div><div class="stat">使えるポイント<b id="availablePoints">0</b></div></div><label for="spendAmount">使うポイント</label><input id="spendAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="例：50"><label for="spendReason">何に使う？</label><input id="spendReason" maxlength="80" placeholder="例：自由時間10分"><button id="spendButton" type="button" class="gold wide">🪙 ポイントを使う</button><h3>📜 ポイント利用履歴</h3><div id="spendHistory" class="hint">まだ利用履歴はありません。</div></div><div class="three"><div class="stat"><button type="button" class="stat-button" data-history="total"><b id="totalDone">0</b><span class="small">🏆 クリア ↗</span></button></div><div class="stat"><button type="button" class="stat-button" data-history="today"><b id="todayDone">0</b><span class="small">⭐ 今日の達成 ↗</span></button></div><div class="stat"><button type="button" class="stat-button" data-history="streak"><b id="streak">0</b><span class="small">🔥 連続日数 ↗</span></button></div></div><section id="historyPanel" class="panel hidden" aria-live="polite"><div class="history-actions"><h2 id="historyTitle">📖 成長の記録</h2><button id="closeHistory" class="gray" type="button">✕ 閉じる</button></div><div id="historyContent"></div></section>
+<div class="panel"><h2>🗓️ 冒険の日付を選ぶ</h2><div class="two"><button id="selectToday" class="gold" type="button">📅 今日</button><button id="selectCustom" class="blue" type="button">🗓️ 自分で選ぶ</button></div><div id="datePickerWrap" class="hidden"><label for="missionDate">ミッションの日付</label><input id="missionDate" type="date"></div><p id="date" class="sub"></p><p class="hint">選んだ日付のミッションと日記を表示・編集します。今日の達成と連続日数は実際の今日を基準に集計します。</p><p class="hint">追加したら「決めた」を押そう。1つずつ初期化もできるよ。やらない日があっても大丈夫！</p><div id="dailyStatus"></div><button id="noMission" class="gray wide">🌿 今日はミッションなし</button></div>
+<div class="panel quest-hub"><h2>⚔️ ミッションを選ぼう！</h2><div class="quest-tabs" role="tablist" aria-label="学習ミッション"><button type="button" class="quest-tab active" data-quest-tab="school" role="tab" aria-selected="true">🏫<span>学校</span></button><button type="button" class="quest-tab" data-quest-tab="juku" role="tab" aria-selected="false">📚<span>塾</span></button><button type="button" class="quest-tab" data-quest-tab="english" role="tab" aria-selected="false">⚡<span>英語</span></button></div><div id="questSchool" class="quest-pane" role="tabpanel"><p class="quest-sub">🏫 学校のクエスト</p><div id="schoolMissions"></div><div id="schoolOptions"></div><div class="row" style="margin-top:10px"><input id="newSchool" maxlength="90" placeholder="好きなミッションを入力"><button type="button" class="gold" data-add-free="school">＋追加</button></div></div><div id="questJuku" class="quest-pane hidden" role="tabpanel"><p class="quest-sub">📚 塾のクエスト</p><div id="jukuMissions"></div><div id="jukuOptions"></div><div class="row" style="margin-top:10px"><input id="newJuku" maxlength="90" placeholder="好きなミッションを入力"><button type="button" class="gold" data-add-free="juku">＋追加</button></div></div><div id="questEnglish" class="quest-pane hidden" role="tabpanel"><p class="quest-sub">⚡ 英語のクエスト</p><div id="englishMissions"></div><div id="englishOptions"></div><div class="row" style="margin-top:10px"><input id="newEnglish" maxlength="90" placeholder="好きなミッションを入力"><button type="button" class="gold" data-add-free="english">＋追加</button></div></div></div>
+<div class="panel"><h2>🌱 成長のサブクエスト</h2><p class="sub">生活・人として・チャレンジ</p><div id="sideOptions"></div><div id="sideMissions"></div></div><div class="panel"><h2>➕ 自分だけのミッション</h2><select id="customCategory"><option value="school">🏫 学校</option><option value="juku">📚 塾</option><option value="english">🇬🇧 英語</option><option value="life">🌞 生活</option><option value="heart">💗 人として</option><option value="challenge">🔥 チャレンジ</option></select><div class="row" style="margin-top:8px"><input id="customText" maxlength="90" placeholder="自分でチャレンジを決める"><button id="addCustom" class="gold">＋追加</button></div></div>
+<div class="panel"><h2>🔐 6つの数字を集めよう！</h2><p class="hint">学校・塾・英語、それぞれのミッションを最後までクリアすると2つずつ解放！</p><div class="three"><div class="stat">🏫<div id="digitsSchool">🔒🔒</div></div><div class="stat">📚<div id="digitsJuku">🔒🔒</div></div><div class="stat">🇬🇧<div id="digitsEnglish">🔒🔒</div></div></div><p id="digitResult" class="code">🔒 🔒 🔒 🔒 🔒 🔒</p><p class="hint">これは家族のごほうびコードです。端末の本当のロック解除コードには使用しないでください。</p></div>
+<div class="panel"><h2>🎁 ひみつの宝箱</h2><div style="text-align:center;font-size:65px">🧰</div><p id="chestStatus" style="text-align:center"></p><button id="openChest" class="gold wide">✨ 宝箱を開ける</button><p id="giftResult" style="text-align:center"></p></div><div class="panel"><h2>📖 成長の記録</h2><label>今日、自分でできたこと</label><textarea id="good"></textarea><label>困ったこと・次に試したいこと</label><textarea id="tomorrow"></textarea><button id="review" class="blue wide">📖 日記を保存</button></div></section>
+<section id="parent" class="hidden"><div class="panel"><h2>👑 お母さんの秘密基地</h2><div id="locked"><label>お母さんの暗証番号</label><input id="pin" type="password" inputmode="numeric"><button id="unlock" class="gold wide">🔓 ロック解除</button><p class="hint">初回は4桁以上で設定。これは簡易画面ロックです。</p></div><div id="parentContent" class="hidden"><h3>🔐 お母さん用PIN</h3><input id="newPin" type="password" inputmode="numeric" placeholder="新しいPIN（4桁以上）"><button id="setPin" class="gray wide">PINを変更</button><h3>🎮 今日の6桁ごほうびコード</h3><p class="hint">実際のiPadロック解除コードを入力しないでください。家族のごほうび用に作った数字を設定します。</p><input id="dailyCode" type="text" inputmode="numeric" maxlength="6" placeholder="6桁の数字"><button id="setCode" class="blue wide">🔐 今日の数字を設定</button><h3>🎁 ひみつのプレゼント</h3><input id="gift" placeholder="例：週末に好きな遊びを選べる"><label>宝箱を開けるレベル</label><select id="giftLevel"><option value="3">LEVEL 3</option><option value="5">LEVEL 5</option><option value="10">LEVEL 10</option></select><label>プレゼントを見せる場所</label><select id="giftPlace"><option value="chest">宝箱ページ</option><option value="home">冒険ホーム</option><option value="level">レベルアップ時</option></select><button id="setGift" class="gold wide">🎁 プレゼントを設定</button><h3>🌷 お母さんの成長ミッション</h3><div id="momChecks"></div><h3>📊 今日の冒険レポート</h3><div id="parentReport" class="status"></div><button id="lock" class="gray wide">🔒 ロック</button></div></div></section></div></div><div id="toast"></div><p class="footer">ユウト株式会社 · YUTO QUEST V3.7</p></main>
 <script>
 'use strict';
-
 const URL='https://dodziozbzggubpfncpzs.supabase.co';
 const KEY='sb_publishable_VEXNSeo4GrpEQ8W5WAZWdw_UGJhBhF8';
-const AUTH='yuto_quest_auth_v2';
 const $=id=>document.getElementById(id);
-
-let session=null,data=null,version=null;
-let ready=false,dirty=false,saving=false,loading=false;
-let saveAgain=false,selectedDate=null;
-let activeTab='school',sideTab='life',unlocked=false;
-
-const NAMES={
- school:'🏫 学校',juku:'📚 塾',english:'⚡ 英語',
- life:'🏠 生活',heart:'💖 人として',
- challenge:'🚀 チャレンジ'
-};
-
+const AUTH='yuto_quest_auth_v2';
+const CATS={school:'🏫 学校',juku:'📚 塾',english:'🇬🇧 英語',life:'🌞 生活',heart:'💗 人として',challenge:'🔥 チャレンジ'};
 const PRESETS={
- school:[
-  '学校の宿題を自分で始める','国語の宿題',
-  '算数の宿題','漢字の練習','明日の学校の準備',
-  'テストの直し'
- ],
- juku:[
-  'エルカミノの宿題','算数ドリル',
-  '考える問題に挑戦','塾の復習',
-  '自分で勉強の計画を立てる'
- ],
- english:[
-  '英単語を覚える','英語の本を読む',
-  '英語の音読','英語の宿題',
-  '英検の練習','英語を10分勉強する'
- ],
- life:[
-  '朝、自分で起きる','時間どおりに出発する',
-  'ランドセルを準備する','机を片づける',
-  'ゴミ出しをする','お母さんにコーヒーを作る'
- ],
- heart:[
-  '家族の話を最後まで聞く','ありがとうを伝える',
-  '自分の気持ちを言葉にする',
-  '相手の困りごとを手伝う'
- ],
- challenge:[
-  '難しい問題に挑戦する','新しいことをやってみる',
-  '失敗してももう一度やる',
-  '自分で計画して行動する'
- ]
+ school:['学校の宿題を自分で始める','国語の宿題をする','算数の宿題をする','漢字の練習をする','音読をする','学校のテスト直しをする','明日の学校の準備をする'],
+ juku:['エルカミノの宿題を自分で始める','算数の問題を考える','国語の問題に取り組む','ドリルを1ページ進める','まちがえた問題を解き直す','わからない問題を質問する'],
+ english:['英語の宿題を自分で始める','英単語を覚える','英語の本を読む','英語の文を書く','英語を声に出して読む','英検の問題にチャレンジする'],
+ life:['朝、自分で起きる','7時25分までに出発する','ランドセルを自分で準備する','机を片づける','忘れ物をチェックする','お母さんにコーヒーを入れる','ゴミ出しを手伝う'],
+ heart:['自分からありがとうを言う','自分からあいさつする','困ったことを相談する','家族の話を最後まで聞く','自分の気持ちを伝える','家族の困りごとを手伝う'],
+ challenge:['むずかしい問題に挑戦する','あきらめずにもう一度やる','自分で計画を立てる','20分集中して取り組む','新しいことを試す','失敗した理由を考える']
 };
-
-function dayKey(d=new Date()){
- return d.getFullYear()+'-'+
- String(d.getMonth()+1).padStart(2,'0')+'-'+
- String(d.getDate()).padStart(2,'0');
+let session=null,data=null,version=null,dirty=false,saving=false,saveAgain=false,ready=false,unlocked=false,loading=false;let selectedDate=null;
+function dayKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function chosenDay(){return selectedDate||dayKey()}
+function fresh(){return {xp:0,days:{},gift:'',giftLevel:3,giftPlace:'chest',mom:{},rewardCodes:{},spending:[]}}
+function clean(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function status(s,err=false){$('syncStatus').textContent=s;$('syncStatus').className='status '+(err?'err':'ok')}
+function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2300)}
+async function request(path,{method='GET',body,token,headers={}}={}){const h={apikey:KEY,'Content-Type':'application/json',...headers};if(token)h.Authorization='Bearer '+token;const r=await fetch(URL+path,{method,headers:h,body:body===undefined?undefined:JSON.stringify(body),cache:'no-store'});const raw=await r.text();let j;try{j=raw?JSON.parse(raw):null}catch{j=raw}if(!r.ok){const e=new Error(`HTTP ${r.status}: ${j?.message||j?.msg||j?.error_description||j?.error||raw}`);e.status=r.status;throw e}return j}
+function remember(){if(session)localStorage.setItem(AUTH,JSON.stringify(session));else localStorage.removeItem(AUTH)}
+async function refresh(){if(!session?.refresh_token)throw Error('再ログインしてください');session=await request('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:{refresh_token:session.refresh_token}});remember()}
+async function token(){if(!session)throw Error('ログインしてください');if(Date.now()>=(session.expires_at||0)*1000-60000)await refresh();return session.access_token}
+async function auth(path,options={}){let t=await token();try{return await request(path,{...options,token:t})}catch(e){if(e.status!==401)throw e;await refresh();return request(path,{...options,token:session.access_token})}}
+function rowPath(suffix=''){return '/rest/v1/family_progress?user_id=eq.'+encodeURIComponent(session.user.id)+suffix}
+function current(){const k=chosenDay();data.days??={};data.days[k]??={missions:[],good:'',tomorrow:''};data.days[k].missions??=[];return data.days[k]}
+function migrate(){data={...fresh(),...data};data.days??={};for(const d of Object.values(data.days)){d.missions??=[];for(const m of d.missions){m.id??=Math.random().toString(36).slice(2);m.category??='school';if(m.done){m.planned=true;m.started=true;m.completed=true}else{m.planned??=true;m.started??=false;m.completed??=false}}}data.rewardCodes??={};data.mom??={};data.spending??=[]}
+function spentTotal(){return (data?.spending||[]).reduce((n,x)=>n+Number(x.amount||0),0)}
+function availablePoints(){return Math.max(0,Math.floor(Number(data?.xp||0))-spentTotal())}
+function lvl(){return Math.floor(Number(data?.xp||0)/100)+1}
+function done(m){return Boolean(m.completed||m.done)}
+function allMissions(){return Object.values(data.days||{}).flatMap(d=>d.missions||[])}
+function streak(){let n=0;for(let i=0;i<365;i++){const ms=data.days?.[dateBefore(i)]?.missions||[];if(ms.some(done))n++;else if(i>0)break}return n}
+let activeHistory=null;
+function dateBefore(offset){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-offset);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function completedOn(key){return (data.days?.[key]?.missions||[]).filter(done)}
+function comparison(){const t=completedOn(dayKey()).length,y=completedOn(dateBefore(1)).length,delta=t-y;return {t,y,delta,label:delta>0?`昨日より +${delta}件`:delta<0?`昨日より ${delta}件`:'昨日と同じ件数'}}
+function historyDay(key,showAll=false){const d=data.days?.[key],completed=completedOn(key);const planned=(d?.missions||[]).filter(m=>m.planned).length,started=(d?.missions||[]).filter(m=>m.started).length;return `<div class="history-day"><h3>📅 ${clean(key)}　🏆 ${completed.length}件クリア</h3><p class="history-note">自分で決めた ${planned}件 ／ 自分で始めた ${started}件</p>${completed.map(m=>`<div class="history-task">✅ ${clean(m.name)} <span class="chip">${clean(CATS[m.category]||'その他')}</span></div>`).join('')||'<p class="history-note">クリアしたミッションはありません。</p>'}${showAll&&d?.noMission?'<p class="history-note">🌿 今日はミッションなしを選びました</p>':''}</div>`}
+function historyRender(){if(!activeHistory||!ready)return;const c=comparison();let title='',html='';const keys=Object.keys(data.days||{}).sort().reverse();if(activeHistory==='today'){title='⭐ 今日の達成';html=`<div class="history-day"><div class="history-delta">${clean(c.label)}</div><p>今日 ${c.t}件 ／ 昨日 ${c.y}件</p><p class="history-note">件数だけでなく、自分で決めたこと・始めたことも大切な成長だよ！</p></div>${historyDay(dayKey(),true)}<h3>🌙 昨日の記録</h3>${historyDay(dateBefore(1),true)}`}else if(activeHistory==='total'){title='🏆 これまでのクリア';html=`<p>これまでに <strong>${allMissions().filter(done).length}件</strong> のミッションをクリア！</p><p class="history-note">保存済みの日付ごとに表示しています。</p>${keys.length?keys.map(k=>historyDay(k)).join(''):'<p>まだ記録がありません。</p>'}`}else{title='🔥 連続日数';html=`<div class="history-day"><div class="history-delta">${streak()}日</div><p>現在の連続達成記録</p><p class="history-note">1日に1つ以上クリアした日を数えます。今日はまだ未達成でも、昨日までの連続記録は表示されます。休んだ日を責めるための数字ではありません。</p></div><h3>📆 最近の14日間</h3>${Array.from({length:14},(_,i)=>historyDay(dateBefore(i),true)).join('')}`}
+$('historyTitle').textContent=title;$('historyContent').innerHTML=html;
 }
-function chosen(){return selectedDate||dayKey()}
-function yesterday(){
- const d=new Date();d.setDate(d.getDate()-1);
- return dayKey(d);
-}
-function esc(s){
- return String(s??'').replace(/[&<>"']/g,c=>({
- '&':'&amp;','<':'&lt;','>':'&gt;',
- '"':'&quot;',"'":'&#39;'
- })[c]);
-}
-function fresh(){
- return {xp:0,days:{},spending:[],mom:{},
- rewardCodes:{},gift:'',giftLevel:3};
-}
-function migrate(){
- data={...fresh(),...data};
- data.days??={};
- data.spending??=[];
- data.rewardCodes??={};
- data.mom??={};
- data.xp=Number(data.xp)||0;
- for(const d of Object.values(data.days)){
-  d.missions??=[];
-  d.good??='';
-  d.tomorrow??='';
-  for(const m of d.missions){
-   m.category??='school';
-   // Preserve previously completed tasks.
-   if(m.done||m.completed){
-    m.planned=true;
-    m.started=true;
-    m.completed=true;
-    m.done=true;
-   }else{
-    m.planned=Boolean(m.planned);
-    m.started=Boolean(m.started);
-    m.completed=false;
-    m.done=false;
-   }
-  }
- }
-}
-function current(){
- const k=chosen();
- data.days[k]??={missions:[],good:'',tomorrow:''};
- return data.days[k];
-}
-function allMissions(){
- return Object.values(data.days||{})
- .flatMap(d=>d.missions||[]);
-}
-function completed(m){return Boolean(m.done||m.completed)}
-function completedOn(k){
- return (data.days?.[k]?.missions||[]).filter(completed);
-}
-function level(){return Math.floor(data.xp/100)+1}
-function balance(){
- return Math.max(0,Math.floor(data.xp)-
- data.spending.reduce((n,x)=>n+(Number(x.amount)||0),0));
-}
-function streak(){
- let count=0,d=new Date();
- if(!completedOn(dayKey(d)).length)d.setDate(d.getDate()-1);
- for(let i=0;i<365;i++){
-  if(!completedOn(dayKey(d)).length)break;
-  count++;d.setDate(d.getDate()-1);
- }
- return count;
-}
-function status(message,error=false){
- $('syncStatus').textContent=message;
- $('syncStatus').className='status '+(error?'err':'ok');
-}
-function alertError(e){status('❌ '+e.message,true)}
-async function request(path,opt={}){
- const headers={
-  apikey:KEY,'Content-Type':'application/json',
-  ...opt.headers
- };
- if(opt.token)headers.Authorization='Bearer '+opt.token;
- const r=await fetch(URL+path,{
-  method:opt.method||'GET',headers,
-  body:opt.body===undefined?undefined:JSON.stringify(opt.body),
-  cache:'no-store'
- });
- const text=await r.text();
- let result;
- try{result=text?JSON.parse(text):null}
- catch{result=text}
- if(!r.ok){
-  const msg=typeof result==='object'?
-   result?.message||result?.msg||
-   result?.error_description||result?.error||
-   JSON.stringify(result):result;
-  const e=new Error('HTTP '+r.status+': '+msg);
-  e.status=r.status;throw e;
- }
- return result;
-}
-function remember(){
- if(session)localStorage.setItem(AUTH,JSON.stringify(session));
- else localStorage.removeItem(AUTH);
-}
-async function refresh(){
- session=await request('/auth/v1/token?grant_type=refresh_token',{
-  method:'POST',
-  body:{refresh_token:session.refresh_token}
- });
- remember();
-}
-async function token(){
- if(!session)throw Error('ログインしてください');
- if(Date.now()>=session.expires_at*1000-60000)await refresh();
- return session.access_token;
-}
-async function auth(path,opt={}){
- let t=await token();
- try{return await request(path,{...opt,token:t})}
- catch(e){
-  if(e.status!==401)throw e;
-  await refresh();
-  t=await token();
-  return request(path,{...opt,token:t});
- }
-}
-function rowPath(extra=''){
- return '/rest/v1/family_progress?user_id=eq.'+
- encodeURIComponent(session.user.id)+extra;
-}
-async function load(force=false){
- if(!session||loading)return;
- if((dirty||saving)&&!force)return;
- if((dirty||saving)&&force&&!confirm(
-  '未保存の変更があります。クラウドから読み直しますか？'
- ))return;
- loading=true;
- try{
-  status('☁️ 最新データを読み込み中…');
-  const rows=await auth(rowPath(
-   '&select=user_id,progress,updated_at'
-  ));
-  if(!Array.isArray(rows))throw Error('データ形式エラー');
-  data=rows.length?rows[0].progress||fresh():fresh();
-  version=rows.length?rows[0].updated_at:null;
-  migrate();ready=true;dirty=false;
-  render();status('✅ クラウド読み込み成功');
- }catch(e){alertError(e)}
- finally{loading=false}
-}
-async function saveCloud(){
- if(!ready||!session)return;
- if(saving){saveAgain=true;return}
- saving=true;$('save').disabled=true;
- const snapshot=JSON.stringify(data);
- const prev=version;
- const now=new Date().toISOString();
- try{
-  status('☁️ 保存中…');
-  let rows;
-  if(prev===null){
-   rows=await auth('/rest/v1/family_progress',{
-    method:'POST',
-    headers:{Prefer:'return=representation'},
-    body:{
-     user_id:session.user.id,
-     progress:JSON.parse(snapshot),
-     updated_at:now
-    }
-   });
-  }else{
-   rows=await auth(rowPath(
-    '&updated_at=eq.'+encodeURIComponent(prev)
-   ),{
-    method:'PATCH',
-    headers:{Prefer:'return=representation'},
-    body:{
-     progress:JSON.parse(snapshot),
-     updated_at:now
-    }
-   });
-  }
-  if(!Array.isArray(rows)||rows.length!==1){
-   throw Error('別の端末でデータが更新されました。保存競合です');
-  }
-  version=rows[0].updated_at;
-  dirty=JSON.stringify(data)!==snapshot;
-  status('✅ Supabase 保存成功 '+new Date()
-   .toLocaleTimeString('ja-JP'));
- }catch(e){
-  dirty=true;saveAgain=false;alertError(e);
- }finally{
-  saving=false;$('save').disabled=false;
-  if(saveAgain){
-   saveAgain=false;
-   if(dirty)saveCloud();
-  }
- }
-}
-function edit(){
- if(!ready)return;
- dirty=true;render();saveCloud();
-}
-function newId(){
- return Date.now().toString(36)+
- Math.random().toString(36).slice(2,9);
-}
-function addMission(name,category){
- if(!ready||!name.trim())return;
- const d=current();
- if(d.missions.some(m=>m.name===name&&m.category===category)){
-  alert('もう追加されています');return;
- }
- d.noMission=false;
- d.missions.push({
-  id:newId(),name:name.trim(),category,
-  planned:false,started:false,completed:false,done:false
- });
- edit();
-}
-function missionHTML(m){
- return `<div class="quest">
- <div class="quest-title">${esc(m.name)}</div>
- <div class="steps">
- <button class="${m.planned?'green':'gold'}"
- data-id="${esc(m.id)}" data-step="planned"
- ${m.planned?'disabled':''}>
- ${m.planned?'✓ 決めた':'決めた +10'}
- </button>
- <button class="${m.started?'green':'blue'}"
- data-id="${esc(m.id)}" data-step="started"
- ${m.started||!m.planned?'disabled':''}>
- ${m.started?'✓ 始めた':'始めた +15'}
- </button>
- <button class="${completed(m)?'green':'gold'}"
- data-id="${esc(m.id)}" data-step="completed"
- ${completed(m)||!m.started?'disabled':''}>
- ${completed(m)?'✓ クリア':'クリア +20'}
- </button>
- </div>
- <div style="text-align:right;margin-top:10px">
- <button class="gray" data-reset="${esc(m.id)}"
- style="font-size:12px;padding:8px">↺ 初期化</button>
- </div>
- </div>`;
-}
-function render(){
- if(!ready)return;
- const d=current(),lv=level();
- const monsters=[
-  ['🐣','ぼうけんのたまご'],
-  ['🐲','ちいさなドラゴン'],
-  ['👾','ふしぎなモンスター'],
-  ['🦖','ゆうきのモンスター'],
-  ['🐉','でんせつのドラゴン']
- ];
- const m=monsters[Math.min(Math.floor((lv-1)/2),4)];
- $('monster').textContent=m[0];
- $('monsterName').textContent=m[1];
- $('level').textContent='LEVEL '+lv;
- $('xp').textContent='⭐ '+data.xp+' EXP';
- $('bar').style.width=(data.xp%100)+'%';
- $('totalDone').textContent=allMissions().filter(completed).length;
- $('todayDone').textContent=completedOn(dayKey()).length;
- $('streak').textContent=streak();
- $('dateLabel').textContent='表示中：'+chosen();
- $('missionDate').value=chosen();
- $('dailySummary').textContent=
-  '予定 '+d.missions.length+'件 ／ クリア '+
-  d.missions.filter(completed).length+'件'+
-  (d.noMission?' 🌿 休息日':'');
- $('questHeading').innerHTML='<h3>'+NAMES[activeTab]+'のクエスト</h3>';
- $('questList').innerHTML=d.missions
-  .filter(m=>m.category===activeTab)
-  .map(missionHTML).join('')||
-  '<p class="muted">まだミッションはありません。</p>';
- $('sideMissions').innerHTML=d.missions
-  .filter(m=>['life','heart','challenge'].includes(m.category))
-  .map(missionHTML).join('')||
-  '<p class="muted">サブクエストはまだありません。</p>';
- $('earned').textContent=data.xp;
- $('available').textContent=balance();
- $('spendHistory').innerHTML=(data.spending||[])
-  .slice().reverse().slice(0,30)
-  .map(x=>`<div class="detail">
-  🪙 -${Number(x.amount)||0} pt　${esc(x.reason)}
-  <br><small>${esc(x.date||'')}</small></div>`)
-  .join('')||'<p class="muted">まだ利用履歴はありません。</p>';
- $('good').value=d.good||'';
- $('tomorrow').value=d.tomorrow||'';
- $('chestStatus').textContent=lv>=Number(data.giftLevel||3)?
-  '✨ 宝箱を開けられるよ！':
-  '🔒 LEVEL '+(data.giftLevel||3)+' で解放';
- const code=data.rewardCodes?.[dayKey()]||'';
- const groups=['school','juku','english'];
- const digits=groups.map((c,i)=>{
-  const ok=completedOn(dayKey()).some(m=>m.category===c);
-  return ok&&code?
-   code.slice(i*2,i*2+2):'🔒🔒';
- });
- $('rewardDigits').textContent=digits.join(' ');
- $('gift').value=data.gift||'';
- $('giftLevel').value=String(data.giftLevel||3);
- $('dailyCode').value=data.rewardCodes?.[dayKey()]||'';
- const momTasks=[
-  '催促を減らした','最後まで話を聞いた',
-  '自分で決める時間をつくった','できたことをほめた'
- ];
- $('momChecks').innerHTML=momTasks.map((t,i)=>`
- <label><input type="checkbox" data-mom="${i}"
- style="width:auto" ${data.mom?.[dayKey()]?.[i]?'checked':''}>
- ${t}</label>`).join('');
-}
-function showPresets(category,target){
- $(target).innerHTML=PRESETS[category].map(name=>`
- <button class="preset" data-add="${esc(category)}"
- data-name="${esc(name)}">＋ ${esc(name)}</button>`).join('');
-}
-function switchTab(category){
- if(!['school','juku','english'].includes(category))return;
- activeTab=category;
- document.querySelectorAll('[data-tab]').forEach(b=>{
-  b.classList.toggle('active',b.dataset.tab===category);
- });
- $('presets').classList.add('hidden');
- $('togglePresets').textContent='＋ ミッションを選ぶ';
- if(ready)render();
-}
-function history(type){
- if(!ready)return;
- const panel=$('historyPanel');
- panel.classList.remove('hidden');
- const all=Object.entries(data.days||{})
-  .sort((a,b)=>b[0].localeCompare(a[0]));
- let title='',html='';
- const todayCount=completedOn(dayKey()).length;
- const prevCount=completedOn(yesterday()).length;
- if(type==='today'){
-  title='⭐ 今日の達成';
-  const delta=todayCount-prevCount;
-  html=`<div class="detail">
-   今日 ${todayCount}件 ／ 昨日 ${prevCount}件
-   <h2>${delta>0?'昨日より＋'+delta+'件':
-   delta<0?'昨日より'+delta+'件':'昨日と同じ'}</h2>
-   </div>`;
-  for(const [name,key] of [['今日',dayKey()],['昨日',yesterday()]]){
-   html+=`<div class="detail"><h3>${name}</h3>`+
-    (completedOn(key).map(m=>'✓ '+esc(m.name)).join('<hr class="divider">')||
-     'クリアしたミッションはありません。')+'</div>';
-  }
- }else if(type==='streak'){
-  title='🔥 連続日数';
-  html=`<div class="detail">現在の連続達成：${streak()}日</div>`;
- }else{
-  title='🏆 クリアの記録';
-  html=`<div class="detail">
-  合計 ${allMissions().filter(completed).length}件クリア！
-  </div>`;
- }
- if(type!=='today'){
-  for(const [date,d] of all){
-   const finished=(d.missions||[]).filter(completed);
-   if(!finished.length)continue;
-   html+=`<div class="detail"><h3>${esc(date)}
-   ／ ${finished.length}件</h3>`+
-   finished.map(m=>'✓ '+esc(m.name)).join('<hr class="divider">')+
-   '</div>';
-  }
- }
- $('historyTitle').textContent=title;
- $('historyContent').innerHTML=html;
- panel.scrollIntoView({behavior:'smooth',block:'start'});
-}
-async function signedIn(){
- $('loginPanel').classList.add('hidden');
- $('app').classList.remove('hidden');
- $('account').textContent='👤 '+session.user.email;
- await load();
-}
-$('login').onclick=async()=>{
- $('login').disabled=true;
- try{
-  session=await request('/auth/v1/token?grant_type=password',{
-   method:'POST',
-   body:{
-    email:$('email').value.trim(),
-    password:$('password').value
-   }
-  });
-  remember();
-  $('password').value='';
-  await signedIn();
- }catch(e){
-  $('loginStatus').textContent='❌ '+e.message;
- }finally{$('login').disabled=false}
-};
-$('logout').onclick=async()=>{
- if(dirty&&!confirm('未保存の変更があります。続けますか？'))return;
- try{await auth('/auth/v1/logout',{method:'POST'})}catch{}
- session=null;remember();data=null;ready=false;dirty=false;
- $('app').classList.add('hidden');
- $('loginPanel').classList.remove('hidden');
-};
-$('reload').onclick=()=>load(true);
-$('save').onclick=saveCloud;
-$('childTab').onclick=()=>{
- $('child').classList.remove('hidden');
- $('parent').classList.add('hidden');
- $('childTab').classList.add('active');
- $('parentTab').classList.remove('active');
-};
-$('parentTab').onclick=()=>{
- $('parent').classList.remove('hidden');
- $('child').classList.add('hidden');
- $('parentTab').classList.add('active');
- $('childTab').classList.remove('active');
-};
-document.querySelectorAll('[data-tab]').forEach(b=>{
- b.onclick=()=>switchTab(b.dataset.tab);
-});
-$('togglePresets').onclick=()=>{
- const hidden=$('presets').classList.toggle('hidden');
- if(!hidden)showPresets(activeTab,'presets');
- $('togglePresets').textContent=hidden?
-  '＋ ミッションを選ぶ':'✕ 閉じる';
-};
-document.querySelectorAll('[data-side]').forEach(b=>{
- b.onclick=()=>{
-  sideTab=b.dataset.side;
-  showPresets(sideTab,'sidePresets');
- };
-});
-$('addCustom').onclick=()=>{
- addMission($('customMission').value,activeTab);
- $('customMission').value='';
-};
-document.addEventListener('click',e=>{
- const preset=e.target.closest('[data-add]');
- if(preset){
-  addMission(preset.dataset.name,preset.dataset.add);
-  return;
- }
- const step=e.target.closest('[data-step]');
- if(step&&ready){
-  const m=current().missions.find(x=>x.id===step.dataset.id);
-  if(!m)return;
-  if(step.dataset.step==='planned'&&!m.planned){
-   m.planned=true;data.xp+=10;
-  }else if(step.dataset.step==='started'&&m.planned&&!m.started){
-   m.started=true;data.xp+=15;
-  }else if(step.dataset.step==='completed'&&m.started&&!completed(m)){
-   m.completed=true;m.done=true;data.xp+=20;
-  }else return;
-  edit();return;
- }
- const reset=e.target.closest('[data-reset]');
- if(reset&&ready){
-  const m=current().missions.find(x=>x.id===reset.dataset.reset);
-  if(!m)return;
-  const earned=(m.planned?10:0)+(m.started?15:0)+
-   (completed(m)?20:0);
-  if(!confirm('「'+m.name+'」を初期化しますか？\n'+
-   earned+' EXPを差し引きます。'))return;
-  data.xp=Math.max(0,data.xp-earned);
-  m.planned=false;m.started=false;
-  m.completed=false;m.done=false;
-  edit();return;
- }
- const h=e.target.closest('[data-history]');
- if(h)history(h.dataset.history);
-});
-$('closeHistory').onclick=()=>
- $('historyPanel').classList.add('hidden');
-$('selectToday').onclick=()=>{
- selectedDate=dayKey();
- $('dateWrap').classList.add('hidden');
- if(ready)render();
-};
-$('selectCustom').onclick=()=>{
- $('dateWrap').classList.remove('hidden');
- $('missionDate').value=chosen();
-};
-$('missionDate').onchange=e=>{
- if(!/^\d{4}-\d{2}-\d{2}$/.test(e.target.value))return;
- selectedDate=e.target.value;
- if(ready)render();
-};
-$('noMission').onclick=()=>{
- if(!ready)return;
- if(current().missions.length){
-  alert('ミッションがある日は「なし」にできません。');
-  return;
- }
- current().noMission=true;edit();
-};
-$('review').onclick=()=>{
- if(!ready)return;
- current().good=$('good').value;
- current().tomorrow=$('tomorrow').value;
- edit();
-};
-$('spend').onclick=()=>{
- if(!ready||saving||dirty){
-  alert('保存が完了するまで待ってね');return;
- }
- const amount=Number($('spendAmount').value);
- const reason=$('spendReason').value.trim();
- if(!Number.isSafeInteger(amount)||amount<1){
-  alert('1以上の整数を入力してね');return;
- }
- if(!reason){alert('何に使うか入力してね');return}
- if(amount>balance()){
-  alert('使えるポイントが足りません');return;
- }
- if(!confirm(amount+'ポイントを使いますか？'))return;
- data.spending.push({
-  id:newId(),amount,reason,
-  date:new Date().toLocaleString('ja-JP')
- });
- $('spendAmount').value='';
- $('spendReason').value='';
- edit();
-};
-$('openChest').onclick=()=>{
- if(!ready)return;
- if(level()<Number(data.giftLevel||3)){
-  alert('まだ宝箱を開けられないよ！');return;
- }
- $('giftResult').textContent=
-  '🎉 '+(data.gift||'今日もよくがんばったね！');
-};
+function openHistory(which){if(!ready)return;activeHistory=which;$('historyPanel').classList.remove('hidden');historyRender();$('historyPanel').scrollIntoView({behavior:'smooth',block:'start'})}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-history]');if(b)openHistory(b.dataset.history)});
+$('closeHistory').onclick=()=>{activeHistory=null;$('historyPanel').classList.add('hidden')};
+function categoryFinished(c){return current().missions.some(m=>m.category===c&&done(m))}
+function codeDigits(){const v=data.rewardCodes?.[dayKey()]||'';return /^\d{6}$/.test(v)?v:null}
+function render(){if(!ready)return;const d=current(),l=lvl(),total=allMissions().filter(done).length;const mons=[['🐲','はじまりのドラゴン'],['🐣','ぼうけんのたまご'],['👾','スピードモンスター'],['🦖','ゆうきのモンスター'],['🐉','でんせつのドラゴン']];const m=mons[Math.min(Math.floor((l-1)/2),mons.length-1)];$('monster').textContent=m[0];$('monsterName').textContent=m[1];$('level').textContent='LEVEL '+l;$('xp').textContent='⭐ '+data.xp+' EXP';$('earnedPoints').textContent=Math.floor(Number(data.xp||0));$('availablePoints').textContent=availablePoints();$('spendHistory').innerHTML=(data.spending||[]).length?[...data.spending].reverse().slice(0,30).map(x=>`<div class="history-task">🪙 -${Number(x.amount)} pt　${clean(x.reason)}<div class="hint">${clean(x.date||'')}</div></div>`).join(''):'まだ利用履歴はありません。';$('bar').style.width=(data.xp%100)+'%';$('totalDone').textContent=total;$('todayDone').textContent=completedOn(dayKey()).length;$('streak').textContent=streak();$('date').textContent='表示中：'+chosenDay()+(chosenDay()===dayKey()?'（今日）':'（選択した日）');$('missionDate').value=chosenDay();$('selectToday').className=chosenDay()===dayKey()?'gold':'gray';$('selectCustom').className=chosenDay()!==dayKey()?'gold':'blue';$('dailyStatus').innerHTML=`<span class="chip">予定 ${d.missions.length}件</span><span class="chip">完了 ${d.missions.filter(done).length}件</span>${d.noMission?'<span class="chip">🌿 今日はなし</span>':''}`;
+for(const [c,el] of [['school','schoolMissions'],['juku','jukuMissions'],['english','englishMissions']])$(el).innerHTML=missionHTML(d.missions.filter(x=>x.category===c));$('sideMissions').innerHTML=missionHTML(d.missions.filter(x=>!['school','juku','english'].includes(x.category)));
+const digits=codeDigits();const cats=['school','juku','english'];cats.forEach((c,i)=>{$('digits'+c[0].toUpperCase()+c.slice(1)).textContent=categoryFinished(c)&&digits?digits.slice(i*2,i*2+2):'🔒🔒'});$('digitResult').textContent=cats.map((c,i)=>categoryFinished(c)&&digits?digits.slice(i*2,i*2+2):'🔒🔒').join(' ');
+$('chestStatus').textContent=l>=Number(data.giftLevel||3)?'✨ 宝箱を開けられるよ！':'🔒 LEVEL '+(data.giftLevel||3)+' で解放';$('gift').value=data.gift||'';$('giftLevel').value=String(data.giftLevel||3);$('giftPlace').value=data.giftPlace||'chest';$('dailyCode').value=data.rewardCodes?.[dayKey()]||'';$('good').value=d.good||'';$('tomorrow').value=d.tomorrow||'';$('parentReport').textContent=`表示中の日付：${chosenDay()}\n予定：${d.missions.length}件\n最後までできた：${d.missions.filter(done).length}件\n自分で始めた：${d.missions.filter(x=>x.started).length}件\n累計EXP：${data.xp}\nLEVEL：${l}`;
+const momTasks=['今日は催促を減らした','子どもの話を最後まで聞いた','自分で決める時間をつくった','できたことをほめた','何もしない自由時間を認めた'];$('momChecks').innerHTML=momTasks.map((t,i)=>`<label><input class="inlinecheck" type="checkbox" data-mom="${i}" ${data.mom?.[dayKey()]?.[i]?'checked':''}>${clean(t)}</label>`).join('');if(activeHistory)historyRender();}
+function missionHTML(ms){return ms.map(m=>`<div class="mission ${done(m)?'done':''}"><div class="mission-title">${clean(m.name)}</div><span class="chip">${clean(CATS[m.category]||'🏫 学校')}</span><div class="steps"><button class="${m.planned?'green':'gray'}" data-id="${clean(m.id)}" data-step="planned" ${m.planned?'disabled':''}>${m.planned?'✓ 決めた':'決める +10'}</button><button class="${m.started?'green':'blue'}" data-id="${clean(m.id)}" data-step="started" ${m.started||!m.planned?'disabled':''}>${m.started?'✓ 始めた':'始める +15'}</button><button class="${done(m)?'green':'gold'}" data-id="${clean(m.id)}" data-step="completed" ${done(m)||!m.started?'disabled':''}>${done(m)?'✓ クリア':'完了 +20'}</button></div><div class="reset-row"><button class="gray" data-reset="${clean(m.id)}">↺ 初期化</button> <button class="red" data-delete="${clean(m.id)}">🗑️ 削除</button></div></div>`).join('')||'<p class="hint">まだミッションはありません。</p>'}
+function makeOptions(){for(const [c,id] of [['school','schoolOptions'],['juku','jukuOptions'],['english','englishOptions']])$(id).innerHTML=`<button type="button" class="quest-add" data-show-presets="${c}">＋ ミッションを追加</button><div class="quest-preset-grid hidden" id="preset-${c}">${PRESETS[c].map((name,i)=>`<button type="button" data-preset="${c}" data-index="${i}">＋ ${clean(name)}</button>`).join('')}</div>`;$('sideOptions').innerHTML=['life','heart','challenge'].map(c=>`<details><summary>${CATS[c]} から選ぶ</summary>${PRESETS[c].map((name,i)=>`<div class="choice row"><span style="flex:1">${clean(name)}</span><button class="blue" data-preset="${c}" data-index="${i}">＋</button></div>`).join('')}</details>`).join('')}
+let activeQuestTab='school';
+function switchQuestTab(cat){if(!['school','juku','english'].includes(cat))return;activeQuestTab=cat;for(const c of ['school','juku','english']){const name=c[0].toUpperCase()+c.slice(1);$('quest'+name).classList.toggle('hidden',c!==cat)}document.querySelectorAll('[data-quest-tab]').forEach(b=>{const on=b.dataset.questTab===cat;b.classList.toggle('active',on);b.setAttribute('aria-selected',String(on))})}
+document.querySelectorAll('[data-quest-tab]').forEach(b=>b.addEventListener('click',()=>switchQuestTab(b.dataset.questTab)));
+document.addEventListener('click',e=>{const b=e.target.closest('[data-show-presets]');if(!b)return;const grid=$('preset-'+b.dataset.showPresets);if(!grid)return;const nowHidden=grid.classList.toggle('hidden');b.textContent=nowHidden?'＋ ミッションを追加':'✕ 閉じる'});
+$('spendButton').onclick=()=>{if(!ready||saving||dirty){toast('同期の完了を待ってね');return}const amount=Number($('spendAmount').value),reason=$('spendReason').value.trim();if(!Number.isSafeInteger(amount)||amount<1){alert('1以上の整数を入力してね');return}if(!reason){alert('何に使うか入力してね');return}if(amount>availablePoints()){alert('使えるポイントが足りないよ！');return}if(!confirm(`${amount}ポイントを「${reason}」に使いますか？\n使ったポイントは戻せません。`))return;data.spending??=[];data.spending.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,8),amount,reason,date:new Date().toLocaleString('ja-JP'),day:dayKey()});$('spendAmount').value='';$('spendReason').value='';edit();toast('🪙 '+amount+'ポイントを使ったよ！')};
+function edit(){if(!ready)return;dirty=true;render();saveCloud()}
+function add(name,c){if(!ready||!name.trim())return;const d=current();if(d.missions.some(m=>m.name===name&&m.category===c)){toast('もう追加されています');return}d.noMission=false;d.missions.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),name:name.trim(),category:c,planned:false,started:false,completed:false,done:false});edit();toast('追加したよ！「決めた」を押して +10 EXP')}
+async function load(force=false){if(!session||loading)return;if((dirty||saving)&&!force)return;if((dirty||saving)&&force&&!confirm('未保存の変更があります。最新データを読み込むと失われる可能性があります。続けますか？'))return;loading=true;try{status('☁️ 最新データを読み込み中…');const rows=await auth(rowPath('&select=user_id,progress,updated_at'));if(!Array.isArray(rows))throw Error('データ形式エラー');data=rows.length?rows[0].progress||fresh():fresh();version=rows.length?rows[0].updated_at:null;migrate();ready=true;dirty=false;render();status('✅ クラウド読み込み成功')}catch(e){status('❌ 読み込み失敗：'+e.message,true)}finally{loading=false}}
+async function saveCloud(){if(!ready||!session)return;if(saving){saveAgain=true;return}saving=true;$('save').disabled=true;const snapshot=JSON.stringify(data);const prev=version;const now=new Date().toISOString();try{status('☁️ 保存中…');let rows;if(prev===null){rows=await auth('/rest/v1/family_progress',{method:'POST',headers:{Prefer:'return=representation'},body:{user_id:session.user.id,progress:JSON.parse(snapshot),updated_at:now}})}else{rows=await auth(rowPath('&updated_at=eq.'+encodeURIComponent(prev)),{method:'PATCH',headers:{Prefer:'return=representation'},body:{progress:JSON.parse(snapshot),updated_at:now}})}if(!Array.isArray(rows)||rows.length!==1)throw Error('保存競合：ほかの端末で変更されました');version=rows[0].updated_at;dirty=JSON.stringify(data)!==snapshot;status('✅ Supabase 保存成功 '+new Date().toLocaleTimeString('ja-JP'))}catch(e){dirty=true;status('❌ 保存できません：'+e.message+'\n画面を閉じず、変更内容を確認してください。',true);saveAgain=false}finally{saving=false;$('save').disabled=false;if(saveAgain){saveAgain=false;if(dirty)saveCloud()}}}
+async function signedIn(){$('loginPanel').classList.add('hidden');$('app').classList.remove('hidden');$('account').textContent='👤 '+session.user.email;await load()}
+$('login').onclick=async()=>{try{$('login').disabled=true;selectedDate=null;session=await request('/auth/v1/token?grant_type=password',{method:'POST',body:{email:$('email').value.trim(),password:$('password').value}});remember();$('password').value='';await signedIn()}catch(e){$('loginStatus').textContent='❌ ログイン失敗：'+e.message}finally{$('login').disabled=false}};
+$('logout').onclick=async()=>{if(dirty&&!confirm('未保存の変更があります。ログアウトしますか？'))return;try{await auth('/auth/v1/logout',{method:'POST'})}catch{}session=null;remember();selectedDate=null;data=null;version=null;ready=false;dirty=false;unlocked=false;$('app').classList.add('hidden');$('loginPanel').classList.remove('hidden')};
+$('reload').onclick=()=>load(true);$('save').onclick=saveCloud;
+document.addEventListener('click',e=>{const del=e.target.closest('[data-delete]');if(!del||!ready)return;const missions=current().missions;const index=missions.findIndex(x=>x.id===del.dataset.delete);if(index<0)return;const m=missions[index];const earned=(m.planned?10:0)+(m.started?15:0)+(done(m)?20:0);if(!confirm('「'+m.name+'」を削除しますか？\nこのミッションの記録は消えます。\n獲得した '+earned+' EXP も差し引きます。'))return;missions.splice(index,1);data.xp=Math.max(0,Number(data.xp||0)-earned);edit();toast('ミッションを削除しました')});
+document.addEventListener('click',e=>{const reset=e.target.closest('[data-reset]');if(reset&&ready){const m=current().missions.find(x=>x.id===reset.dataset.reset);if(!m)return;const earned=(m.planned?10:0)+(m.started?15:0)+(done(m)?20:0);if(!confirm('「'+m.name+'」だけを初期化しますか？\n進行状況を戻し、このミッションで獲得した '+earned+' EXP を差し引きます。\nほかのミッションや過去の日付は変更しません。'))return;data.xp=Math.max(0,Number(data.xp||0)-earned);m.planned=false;m.started=false;m.completed=false;m.done=false;edit();toast('このミッションを初期化しました');return}const b=e.target.closest('[data-preset]');if(b){const c=b.dataset.preset;add(PRESETS[c]?.[Number(b.dataset.index)]||'',c)}const s=e.target.closest('[data-step]');if(s&&ready){const m=current().missions.find(x=>x.id===s.dataset.id);if(!m)return;if(s.dataset.step==='planned'&&!m.planned){m.planned=true;data.xp+=10}else if(s.dataset.step==='started'&&m.planned&&!m.started){m.started=true;data.xp+=15;toast('自分で始めた！ +15 EXP')}else if(s.dataset.step==='completed'&&m.started&&!done(m)){m.completed=true;m.done=true;data.xp+=20;toast('ミッションクリア！ +20 EXP')}else return;edit()}});
+$('addCustom').onclick=()=>{add($('customText').value,$('customCategory').value);$('customText').value=''};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-add-free]');if(!b)return;const c=b.dataset.addFree;const el=$('new'+c[0].toUpperCase()+c.slice(1));if(!el)return;add(el.value,c);el.value=''});
+$('noMission').onclick=()=>{if(!ready)return;if(current().missions.length){toast('すでに予定があります。今日はなしに変更できません');return}current().noMission=true;edit();toast('休む日も大切だよ 🌿')};
+function chooseDate(value){if(!/^\d{4}-\d{2}-\d{2}$/.test(value)||Number.isNaN(new Date(value+'T12:00:00').getTime())){toast('正しい日付を選んでね');return}if((dirty||saving)&&!confirm('保存中または未保存の変更があります。日付を切り替えますか？'))return;selectedDate=value;render()}
+$('selectToday').onclick=()=>{chooseDate(dayKey());$('datePickerWrap').classList.add('hidden')};
+$('selectCustom').onclick=()=>{$('datePickerWrap').classList.remove('hidden');$('missionDate').value=chosenDay();$('missionDate').focus()};
+$('missionDate').onchange=e=>chooseDate(e.target.value);
+$('review').onclick=()=>{if(!ready)return;current().good=$('good').value;current().tomorrow=$('tomorrow').value;edit();toast('日記を保存したよ！')};
+$('openChest').onclick=()=>{if(!ready)return;if(lvl()<Number(data.giftLevel||3)){toast('まだ宝箱は開けられないよ！');return}const gift=data.gift||'今日もよくがんばったね！';$('giftResult').textContent='🎉 '+gift;toast('宝箱オープン！')};
+function tab(parent){$('child').classList.toggle('hidden',parent);$('parent').classList.toggle('hidden',!parent);$('childTab').classList.toggle('on',!parent);$('parentTab').classList.toggle('on',parent)}$('childTab').onclick=()=>tab(false);$('parentTab').onclick=()=>tab(true);
 function pinKey(){return 'yq_pin_'+session.user.id}
-$('unlock').onclick=()=>{
- const saved=localStorage.getItem(pinKey());
- const input=$('pin').value;
- if(!saved){
-  if(input.length<4){alert('4桁以上で設定してね');return}
-  localStorage.setItem(pinKey(),input);
- }else if(input!==saved){
-  alert('PINが違います');return;
- }
- unlocked=true;
- $('locked').classList.add('hidden');
- $('parentContent').classList.remove('hidden');
- render();
-};
-$('setPin').onclick=()=>{
- if(!unlocked)return;
- const p=$('newPin').value;
- if(p.length<4){alert('4桁以上にしてください');return}
- localStorage.setItem(pinKey(),p);
- $('newPin').value='';
- alert('PINを変更しました');
-};
-$('setCode').onclick=()=>{
- if(!unlocked||!ready)return;
- const v=$('dailyCode').value.trim();
- if(!/^\d{6}$/.test(v)){
-  alert('6桁の数字を入力してください');return;
- }
- data.rewardCodes[dayKey()]=v;edit();
-};
-$('setGift').onclick=()=>{
- if(!unlocked||!ready)return;
- data.gift=$('gift').value;
- data.giftLevel=Number($('giftLevel').value);
- edit();
-};
-$('momChecks').onchange=e=>{
- if(!unlocked||!ready||!e.target.matches('[data-mom]'))return;
- data.mom[dayKey()]??={};
- data.mom[dayKey()][e.target.dataset.mom]=e.target.checked;
- edit();
-};
-$('lock').onclick=()=>{
- unlocked=false;
- $('pin').value='';
- $('locked').classList.remove('hidden');
- $('parentContent').classList.add('hidden');
- $('childTab').click();
-};
-document.addEventListener('visibilitychange',()=>{
- if(!document.hidden&&session&&ready&&!dirty&&!saving)load();
-});
-setInterval(()=>{
- if(session&&ready&&!dirty&&!saving&&!document.hidden)load();
-},60000);
-showPresets('life','sidePresets');
-(async()=>{
- try{
-  session=JSON.parse(localStorage.getItem(AUTH)||'null');
-  if(session?.refresh_token){
-   await refresh();await signedIn();
-  }
- }catch{
-  session=null;remember();
- }
-})();
-</script>
-</body>
-</html>
+$('unlock').onclick=()=>{const v=$('pin').value,s=localStorage.getItem(pinKey());if(!s){if(v.length<4){alert('4桁以上のPINを設定してください');return}localStorage.setItem(pinKey(),v)}else if(v!==s){alert('PINが違います');return}unlocked=true;$('locked').classList.add('hidden');$('parentContent').classList.remove('hidden');render()};
+$('setPin').onclick=()=>{if(!unlocked)return;const v=$('newPin').value;if(v.length<4){alert('4桁以上にしてください');return}localStorage.setItem(pinKey(),v);$('newPin').value='';toast('PINを変更しました')};
+$('setCode').onclick=()=>{if(!unlocked||!ready)return;const v=$('dailyCode').value.trim();if(!/^\d{6}$/.test(v)){alert('6桁の数字を入力してください');return}data.rewardCodes??={};data.rewardCodes[dayKey()]=v;edit();toast('今日の数字を設定しました')};
+$('setGift').onclick=()=>{if(!unlocked||!ready)return;data.gift=$('gift').value;data.giftLevel=Number($('giftLevel').value);data.giftPlace=$('giftPlace').value;edit();toast('プレゼントを設定しました')};
+$('momChecks').onchange=e=>{if(!unlocked||!ready||!e.target.matches('[data-mom]'))return;data.mom??={};data.mom[dayKey()]??={};data.mom[dayKey()][e.target.dataset.mom]=e.target.checked;edit()};
+$('lock').onclick=()=>{unlocked=false;$('pin').value='';$('locked').classList.remove('hidden');$('parentContent').classList.add('hidden');tab(false)};
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&session&&ready&&!dirty&&!saving)load()});setInterval(()=>{if(session&&ready&&!dirty&&!saving&&!document.hidden)load()},60000);
+makeOptions();(async()=>{try{session=JSON.parse(localStorage.getItem(AUTH)||'null');if(session?.refresh_token){await refresh();await signedIn()}}catch{session=null;remember();$('loginStatus').textContent='ログインしてください。'}})();
+</script></body></html>
