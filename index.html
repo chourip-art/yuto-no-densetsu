@@ -3,93 +3,88 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111b35">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111a34">
 <title>ユウトの伝説 | YUTO QUEST</title>
 <style>
-:root{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN',sans-serif;color:#f8fbff;background:#111b35}
 *{box-sizing:border-box}
-body{margin:0}
+body{margin:0;background:#111a34;color:#fff;font-family:-apple-system,sans-serif}
+main{max-width:760px;margin:auto;padding:20px 18px 65px}
+h1{color:#ffdc70;font-size:32px}
+h2{margin-top:0}
+p{line-height:1.5}
+.muted{color:#bfcbe5}
+.shell{position:relative;border:5px solid #58698e;border-radius:35px;background:#1d2949;padding:16px}
+.shell:before,.shell:after{content:"";position:absolute;top:50px;width:10px;height:90px;border-radius:10px}
+.shell:before{left:-10px;background:#ff626a}
+.shell:after{right:-10px;background:#35baf4}
+.panel{background:#28375c;border:2px solid #617bb8;border-radius:22px;padding:18px;margin:15px 0}
 button,input,textarea,select{font:inherit}
-button{cursor:pointer;border:0;border-radius:14px;padding:12px 16px;font-weight:800}
-input,textarea,select{width:100%;border:2px solid #a7b8d6;background:#fff;color:#17213a;border-radius:12px;padding:12px}
+button{border:0;border-radius:14px;padding:13px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5}
+input,textarea,select{width:100%;padding:12px;border-radius:12px;border:2px solid #aab9d4;background:white;color:#17213c}
 textarea{min-height:80px}
-main{max-width:850px;margin:auto;padding:20px 18px 80px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.logo{font-size:clamp(25px,6vw,38px);margin:10px 0;color:#ffe274}
-.muted{color:#b7c6e4}
-.shell{border:5px solid #4d5d80;border-radius:35px;padding:16px;background:#1c2a4c;box-shadow:0 12px 35px #0005;position:relative}
-.shell:before,.shell:after{content:'';position:absolute;top:28px;width:11px;height:75px;border-radius:9px}
-.shell:before{background:#ff565a;left:-9px}
-.shell:after{background:#27b9f2;right:-9px}
-.panel{background:#26365c;border:2px solid #5975b2;border-radius:20px;padding:18px;margin:16px 0}
-.yellow{background:#ffda65;color:#1b2948}
-.red{background:#ff646c;color:#15213d}
-.blue{background:#35bdf3;color:#10213b}
-.ghost{background:#465a83;color:#fff}
+label{display:block;margin:12px 0 6px;font-weight:bold}
+.yellow{background:#ffdc70;color:#192641}
+.blue{background:#54bdf0;color:#15233e}
+.gray{background:#4c6089;color:white}
 .wide{width:100%;margin:7px 0}
-.actions{display:flex;flex-wrap:wrap;gap:8px}
-.actions>*{flex:1}
+.row{display:flex;gap:8px;align-items:center}
+.row input{flex:1;min-width:0}
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:15px 0}
-.tab{background:#42577f;color:white}
-.tab.active{background:#ffda65;color:#14203b}
-.stat{display:flex;justify-content:space-between;gap:12px;align-items:center}
-.monster{font-size:66px;text-align:center}
-.progress{height:16px;background:#536383;border-radius:20px;overflow:hidden}
-.progress>div{height:100%;background:#ffda65}
-.item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #51648e}
+.tab{background:#465a84;color:white}
+.tab.active{background:#ffdc70;color:#172440}
+.hidden{display:none!important}
+.status{background:#3d4c71;padding:13px;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.error{border-left:6px solid #ff757a}
+.success{border-left:6px solid #69e3ad}
+.item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #586a92}
 .item span{overflow-wrap:anywhere}
-.done{text-decoration:line-through;opacity:.65}
-.status{border-radius:12px;padding:12px;background:#374a70;white-space:pre-wrap;overflow-wrap:anywhere}
-.ok{border-left:5px solid #5be2a0}
-.bad{border-left:5px solid #ff7777}
-.hidden{display:none}
+.done{text-decoration:line-through;opacity:.6}
+.monster{font-size:65px}
+.stat{display:flex;justify-content:space-between;align-items:center}
+.progress{height:16px;background:#526184;border-radius:20px;overflow:hidden}
+.progress div{height:100%;background:#ffdc70}
+.tag{display:inline-block;background:#445982;border-radius:30px;padding:7px 12px;font-size:13px}
 .small{font-size:13px}
-.tag{display:inline-block;background:#435984;border-radius:30px;padding:5px 10px;font-size:12px}
-.row{display:flex;gap:10px;align-items:center}
-.row>*{min-width:0}
-.row input{flex:1}
-.section-title{margin:0 0 14px}
-label{display:block;margin:12px 0 6px;font-weight:700}
-code{font-size:12px;overflow-wrap:anywhere}
-details{margin-top:14px}
-summary{cursor:pointer}
-footer{text-align:center;color:#aab9d9;font-size:12px;margin-top:24px}
-@media(min-width:650px){main{padding:28px}.shell{padding:25px}}
+footer{text-align:center;color:#aebbd5;font-size:12px;margin-top:25px}
 </style>
 </head>
 <body>
 <main>
-<div class="top">
 <span class="tag">🎮 SWITCH STYLE</span>
-<span id="online" class="tag">同期未確認</span>
-</div>
-<h1 class="logo">⚡ ユウトの伝説 ⚡</h1>
+<h1>⚡ ユウトの伝説 ⚡</h1>
 <p class="muted">自分で決める、ぼくだけの冒険！</p>
 <div class="shell">
+
+<div class="panel" id="loginPanel">
+<h2>🔐 家族のログイン</h2>
+<p class="muted">iPadとiPhoneで同じアカウントを使おう！</p>
+<label>メールアドレス</label>
+<input id="email" type="email" autocomplete="username">
+<label>パスワード</label>
+<input id="password" type="password" autocomplete="current-password">
+<button id="login" class="yellow wide">ログイン</button>
+<div id="loginStatus" class="status">ログインしてください。</div>
+</div>
+
+<div id="app" class="hidden">
+<div class="panel">
+<div class="row">
+<span id="account" class="muted small"></span>
+<button id="logout" class="gray">ログアウト</button>
+</div>
+<h2>☁️ データ同期</h2>
+<div id="syncStatus" class="status">接続中…</div>
+<div class="row" style="margin-top:10px">
+<button id="reload" class="blue" style="flex:1">🔄 最新データ</button>
+<button id="save" class="yellow" style="flex:1">☁️ 保存</button>
+</div>
+</div>
+
 <div class="tabs">
 <button class="tab active" id="childTab">🎮 ユウトの冒険</button>
 <button class="tab" id="parentTab">👑 お母さんモード</button>
-</div>
-<div class="panel">
-<h2 class="section-title">☁️ データ同期</h2>
-<div id="status" class="status">初期設定を確認してください。</div>
-<div class="actions">
-<button class="blue" id="load">🔄 最新データを読み込む</button>
-<button class="yellow" id="save">☁️ 今すぐ保存</button>
-</div>
-<details>
-<summary>⚙️ Supabase 接続設定</summary>
-<p class="small muted">Project URL と publishable key を入力します。secret / service_role key は絶対に入力しないでください。</p>
-<label>Project URL</label>
-<input id="url" placeholder="https://xxxx.supabase.co" autocomplete="off">
-<label>Publishable key (sb_publishable_... または anon key)</label>
-<input id="key" type="text" autocomplete="off">
-<label>家族の同期ID（両端末で同じ値）</label>
-<input id="family" placeholder="例: yuto-family-2026">
-<p class="small muted">同期IDを知る人はデータにアクセスできる可能性があります。後述の認証・RLS設定を必ず確認してください。</p>
-<button id="settings" class="ghost wide">設定を保存して接続テスト</button>
-</details>
 </div>
 
 <section id="child">
@@ -99,9 +94,9 @@ footer{text-align:center;color:#aab9d9;font-size:12px;margin-top:24px}
 <h2 id="level">LEVEL 1</h2>
 <p id="xp">⭐ 0 EXP</p>
 </div>
-<div class="monster" id="monster">🐲</div>
+<div id="monster" class="monster">🐲</div>
 </div>
-<div class="progress"><div id="bar" style="width:0%"></div></div>
+<div class="progress"><div id="bar"></div></div>
 <p class="muted">小さな一歩が、伝説になる！</p>
 </div>
 
@@ -110,26 +105,26 @@ footer{text-align:center;color:#aab9d9;font-size:12px;margin-top:24px}
 <p id="date" class="muted"></p>
 <div class="row">
 <input id="mission" maxlength="80" placeholder="自分でミッションを決めよう">
-<button class="yellow" id="add">＋追加</button>
+<button id="add" class="yellow">＋追加</button>
 </div>
 <div id="missions"></div>
-<button class="ghost wide" id="noMission">今日はミッションなし</button>
+<button id="none" class="gray wide">今日はミッションなし</button>
 </div>
 
 <div class="panel">
 <h2>🎁 宝箱</h2>
-<p id="chest">🔒 LEVEL 3 で宝箱が開く！</p>
-<button class="yellow wide" id="openChest">宝箱を開ける</button>
+<p id="chest"></p>
+<button id="openChest" class="yellow wide">宝箱を開ける</button>
 <p id="surprise"></p>
 </div>
 
 <div class="panel">
 <h2>📖 今日のふりかえり</h2>
 <label>今日がんばったこと</label>
-<textarea id="good" placeholder="小さなことでもOK！"></textarea>
+<textarea id="good"></textarea>
 <label>明日やってみたいこと</label>
 <textarea id="tomorrow"></textarea>
-<button class="blue wide" id="reviewSave">ふりかえりを保存</button>
+<button id="review" class="blue wide">ふりかえりを保存</button>
 </div>
 </section>
 
@@ -138,20 +133,20 @@ footer{text-align:center;color:#aab9d9;font-size:12px;margin-top:24px}
 <h2>👑 お母さんの秘密基地</h2>
 <div id="locked">
 <label>お母さんの暗証番号</label>
-<input id="pinEntry" type="password" inputmode="numeric">
+<input id="pin" type="password" inputmode="numeric">
 <button id="unlock" class="yellow wide">ロック解除</button>
-<p class="small muted">初回は暗証番号を設定してください。端末側の簡易ロックです。クラウド上のアクセス制御ではありません。</p>
+<p class="muted small">初回は4桁以上を設定してください。簡易ロックです。</p>
 </div>
 <div id="parentContent" class="hidden">
-<label>お母さんの暗証番号を変更</label>
-<input id="pinNew" type="password" inputmode="numeric" placeholder="4桁以上">
-<button id="setPin" class="ghost wide">暗証番号を設定</button>
-<label>今日のiPadパスワード（お母さんが設定）</label>
-<input id="ipadPassword" placeholder="子どもには見せない">
-<button id="setIpad" class="blue wide">今日のパスワードを保存</button>
-<label>サプライズの内容</label>
-<input id="gift" placeholder="例：週末に一緒にゲームをする">
-<label>サプライズを表示するLEVEL</label>
+<label>暗証番号を変更</label>
+<input id="newPin" type="password" inputmode="numeric">
+<button id="setPin" class="gray wide">変更</button>
+<label>今日のiPadごほうびコード</label>
+<input id="ipadCode" placeholder="ごほうび用コード">
+<button id="setCode" class="blue wide">コードを保存</button>
+<label>サプライズ</label>
+<input id="gift" placeholder="例：一緒にゲームをする">
+<label>サプライズを表示するレベル</label>
 <select id="giftLevel">
 <option value="3">LEVEL 3</option>
 <option value="5">LEVEL 5</option>
@@ -160,256 +155,268 @@ footer{text-align:center;color:#aab9d9;font-size:12px;margin-top:24px}
 <button id="setGift" class="yellow wide">サプライズをセット</button>
 <h3>🌷 お母さんの成長記録</h3>
 <div id="momChecks"></div>
-<button id="lock" class="ghost wide">🔒 ロック</button>
+<button id="lock" class="gray wide">🔒 ロック</button>
 </div>
 </div>
 </section>
+</div>
 </div>
 <footer>YUTO QUEST · ユウト株式会社 · iPad / iPhone</footer>
 </main>
 
 <script>
 'use strict';
-// Requires Supabase table public.family_progress:
-// user_id text primary key, progress jsonb, updated_at timestamptz.
-// Production requires authentication and appropriate RLS.
+
+const SUPABASE_URL='https://dodziozbzggubpfncpzs.supabase.co';
+const SUPABASE_KEY='sb_publishable_VEXNSeo4GrpEQ8W5WAZWdw_UGJhBhF8';
 
 const $=id=>document.getElementById(id);
-const today=()=>{
- const d=new Date();
- return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-};
-const defaultData=()=>({
- xp:0,days:{},gift:'',giftLevel:3,
- ipadPassword:'',mom:{},updatedAt:null
-});
-let data=defaultData(),unlocked=false,busy=false;
-const config=()=>({
- url:localStorage.getItem('yq_url')||'',
- key:localStorage.getItem('yq_key')||'',
- family:localStorage.getItem('yq_family')||''
-});
-const localKey=()=>`yq_cache_${config().family||'unconfigured'}`;
+let session=null;
+let progress=null;
+let ready=false;
+let dirty=false;
+let saving=false;
+let queued=false;
+let unlocked=false;
 
-function notice(message,kind=''){
- $('status').textContent=message;
- $('status').className='status '+kind;
- $('online').textContent=kind==='ok'?'☁️ 同期OK':kind==='bad'?'⚠️ 同期エラー':'⏳ 同期確認中';
+const blank=()=>({
+ xp:0,days:{},gift:'',giftLevel:3,ipadCode:'',mom:{}
+});
+const dateKey=()=>{
+ const d=new Date();
+ return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+};
+const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[c]));
+
+function status(msg,error=false){
+ $('syncStatus').textContent=msg;
+ $('syncStatus').className='status '+(error?'error':'success');
 }
-function validate(){
- const c=config();
- if(!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(c.url))
-  throw Error('Project URL が未設定、または形式が違います。');
- if(!c.key)throw Error('Publishable key を設定してください。');
- if(!c.family)throw Error('家族の同期IDを設定してください。');
- if(c.key.startsWith('sb_secret_')||
-   c.key.startsWith('eyJ')&&(()=>{
-    try{return JSON.parse(atob(c.key.split('.')[1])).role==='service_role'}
-    catch{return false}
-   })())
-  throw Error('secret / service_role key は使用できません。');
- return c;
+function checkKey(){
+ if(!SUPABASE_KEY.startsWith('sb_publishable_')&&!SUPABASE_KEY.startsWith('eyJ'))
+  throw Error('Publishable key をコードに設定してください');
 }
-function cache(){
- localStorage.setItem(localKey(),JSON.stringify(data));
+async function api(path,{method='GET',body,token,headers={}}={}){
+ checkKey();
+ const r=await fetch(SUPABASE_URL+path,{
+  method,
+  headers:{
+   apikey:SUPABASE_KEY,
+   Authorization:'Bearer '+(token||SUPABASE_KEY),
+   'Content-Type':'application/json',
+   ...headers
+  },
+  body:body===undefined?undefined:JSON.stringify(body),
+  cache:'no-store'
+ });
+ const raw=await r.text();
+ let obj;
+ try{obj=raw?JSON.parse(raw):null}catch{obj=raw}
+ if(!r.ok)throw Error('HTTP '+r.status+': '+(
+  typeof obj==='object'?
+  (obj?.message||obj?.msg||obj?.error_description||obj?.error||JSON.stringify(obj)):obj
+ ));
+ return obj;
 }
-function readCache(){
- try{
-  data={...defaultData(),...JSON.parse(localStorage.getItem(localKey())||'{}')};
- }catch{data=defaultData()}
- render();
+const sessionKey='yq_auth_session_v2';
+function remember(){
+ if(session)localStorage.setItem(sessionKey,JSON.stringify(session));
+ else localStorage.removeItem(sessionKey);
+}
+async function refresh(){
+ if(!session?.refresh_token)throw Error('再ログインしてください');
+ session=await api('/auth/v1/token?grant_type=refresh_token',{
+  method:'POST',
+  body:{refresh_token:session.refresh_token}
+ });
+ remember();
+ return session.access_token;
+}
+async function token(){
+ if(!session)throw Error('ログインが必要です');
+ if(Date.now()>=(session.expires_at||0)*1000-60000)
+  await refresh();
+ return session.access_token;
+}
+async function authed(path,options={}){
+ let t=await token();
+ try{return await api(path,{...options,token:t})}
+ catch(e){
+  if(String(e.message).includes('HTTP 401')){
+   t=await refresh();
+   return api(path,{...options,token:t});
+  }
+  throw e;
+ }
 }
 function day(){
- const k=today();
- if(!data.days[k])data.days[k]={missions:[],good:'',tomorrow:''};
- return data.days[k];
-}
-function safe(s){
- return String(s||'').replace(/[&<>"']/g,c=>({
-  '&':'&amp;','<':'&lt;','>':'&gt;',
-  '"':'&quot;',"'":'&#39;'
- }[c]));
+ const k=dateKey();
+ progress.days??={};
+ progress.days[k]??={missions:[],good:'',tomorrow:''};
+ return progress.days[k];
 }
 function render(){
- const d=day(),lvl=Math.floor((data.xp||0)/100)+1;
- $('level').textContent='LEVEL '+lvl;
- $('xp').textContent='⭐ '+(data.xp||0)+' EXP';
- $('bar').style.width=((data.xp||0)%100)+'%';
- $('monster').textContent=['🐲','🐣','👾','🦖','🐉'][Math.min(Math.floor((lvl-1)/2),4)];
- $('date').textContent=today();
+ if(!progress)return;
+ const d=day();
+ const level=Math.floor((progress.xp||0)/100)+1;
+ $('level').textContent='LEVEL '+level;
+ $('xp').textContent='⭐ '+(progress.xp||0)+' EXP';
+ $('bar').style.width=((progress.xp||0)%100)+'%';
+ $('monster').textContent=['🐲','🐣','👾','🦖','🐉'][Math.min(Math.floor((level-1)/2),4)];
+ $('date').textContent=dateKey();
  $('missions').innerHTML=d.missions.map(m=>`
  <div class="item">
  <span class="${m.done?'done':''}">${safe(m.name)}</span>
- <button class="${m.done?'ghost':'yellow'}"
- data-mid="${safe(m.id)}" ${m.done?'disabled':''}>
+ <button data-id="${safe(m.id)}" class="${m.done?'gray':'yellow'}" ${m.done?'disabled':''}>
  ${m.done?'達成済み':'達成！ +20'}
- </button></div>`).join('')||
- '<p class="muted">今日のミッションを自分で決めよう！</p>';
+ </button></div>`).join('')||'<p class="muted">自分で今日のミッションを決めよう！</p>';
  $('good').value=d.good||'';
  $('tomorrow').value=d.tomorrow||'';
- $('chest').textContent=lvl>=3?
- '🎁 宝箱を開けられるよ！':'🔒 LEVEL 3 で宝箱が開く！';
- $('surprise').textContent=lvl>=Number(data.giftLevel||3)?
- data.gift||'新しい冒険が待っている！':'';
- $('gift').value=data.gift||'';
- $('giftLevel').value=String(data.giftLevel||3);
- $('ipadPassword').value=data.ipadPassword||'';
- $('momChecks').innerHTML=[
- '今日は催促を減らした',
- '子どもの話を最後まで聞いた',
- '自分で決める時間をつくった'
- ].map((t,i)=>`
- <label><input type="checkbox" data-mom="${i}"
- style="width:auto"
- ${data.mom?.[today()]?.[i]?'checked':''}> ${t}</label>
- `).join('');
+ $('chest').textContent=level>=3?'🎁 宝箱を開けられるよ！':'🔒 LEVEL 3 で宝箱が開く！';
+ $('surprise').textContent=level>=Number(progress.giftLevel||3)?progress.gift||'':'';
+ $('gift').value=progress.gift||'';
+ $('giftLevel').value=String(progress.giftLevel||3);
+ $('ipadCode').value=progress.ipadCode||'';
+ const checks=['今日は催促を減らした','子どもの話を最後まで聞いた','自分で決める時間をつくった'];
+ $('momChecks').innerHTML=checks.map((t,i)=>`
+ <label><input style="width:auto" type="checkbox" data-mom="${i}"
+ ${progress.mom?.[dateKey()]?.[i]?'checked':''}> ${t}</label>`).join('');
 }
-function authHeaders(){
- const c=validate();
- return {
-  'apikey':c.key,
-  'Authorization':'Bearer '+c.key,
-  'Content-Type':'application/json'
- };
-}
-async function request(method,body){
- const c=validate();
- const u=c.url.replace(/\/$/,'')+
- '/rest/v1/family_progress?user_id=eq.'+
- encodeURIComponent(c.family);
- const headers=authHeaders();
- if(method==='GET')headers['Accept']='application/json';
- else headers['Prefer']='resolution=merge-duplicates,return=representation';
- const r=await fetch(
-  method==='GET'?u+'&select=user_id,progress,updated_at':u,
-  {
-   method,
-   headers,
-   body:body?JSON.stringify(body):undefined,
-   cache:'no-store'
-  }
- );
- const raw=await r.text();
- let out;
- try{out=raw?JSON.parse(raw):null}catch{out=raw}
- if(!r.ok)throw Error(
-  `HTTP ${r.status}: ${
-   typeof out==='object'?
-   (out.message||out.code||JSON.stringify(out)):out
-  }`
- );
- return out;
-}
-async function load(){
- try{
-  notice('☁️ データを読み込み中…');
-  const rows=await request('GET');
-  if(!Array.isArray(rows))throw Error('予期しないデータ形式');
-  if(rows.length){
-   data={...defaultData(),...(rows[0].progress||{})};
-   cache();
-   render();
-   notice('☁️ 読み込み成功：'+new Date().toLocaleTimeString('ja-JP'),'ok');
-  }else{
-   notice('☁️ 接続成功。ただしこの同期IDのレコードはまだありません。最初の保存をしてください。','ok');
-  }
- }catch(e){
-  notice('❌ 読み込み失敗：'+e.message,'bad');
+async function loadCloud(){
+ if(dirty||saving){
+  if(!confirm('未保存の変更があります。クラウドのデータで上書きしますか？'))return;
  }
-}
-async function save(){
- if(busy)return false;
- busy=true;
  try{
-  notice('☁️ 保存中…');
-  const c=validate();
-  const body={
-   user_id:c.family,
-   progress:data,
-   updated_at:new Date().toISOString()
-  };
-  const rows=await request('POST',body);
-  if(!Array.isArray(rows)||!rows.length)
-   throw Error('保存結果が返りませんでした');
-  cache();
-  notice('✅ Supabase 保存成功：'+new Date().toLocaleTimeString('ja-JP'),'ok');
+  status('☁️ 読み込み中…');
+  const rows=await authed(
+   '/rest/v1/family_progress?user_id=eq.'+
+   encodeURIComponent(session.user.id)+
+   '&select=user_id,progress,updated_at'
+  );
+  if(!Array.isArray(rows))throw Error('データ形式が違います');
+  progress=rows.length?{...blank(),...(rows[0].progress||{})}:blank();
+  ready=true;
+  dirty=false;
+  render();
+  status(rows.length?'✅ クラウド読み込み成功':'✅ 接続成功。まだデータがありません。');
+ }catch(e){status('❌ 読み込み失敗：'+e.message,true)}
+}
+async function saveCloud(){
+ if(!ready||!session)return false;
+ if(saving){queued=true;return false}
+ saving=true;
+ $('save').disabled=true;
+ const snapshot=JSON.stringify(progress);
+ try{
+  status('☁️ 保存中…');
+  const result=await authed('/rest/v1/family_progress?on_conflict=user_id',{
+   method:'POST',
+   body:{
+    user_id:session.user.id,
+    progress:JSON.parse(snapshot),
+    updated_at:new Date().toISOString()
+   },
+   headers:{Prefer:'resolution=merge-duplicates,return=representation'}
+  });
+  if(!Array.isArray(result)||!result.length)throw Error('保存結果が返りません');
+  dirty=JSON.stringify(progress)!==snapshot;
+  status('✅ Supabase 保存成功 '+new Date().toLocaleTimeString('ja-JP'));
   return true;
  }catch(e){
-  cache();
-  notice('❌ Supabase 保存失敗：'+e.message+
-  '\nこの端末には一時保存しています。別の端末には反映されません。','bad');
+  dirty=true;
+  status('❌ 保存失敗：'+e.message,true);
   return false;
- }finally{busy=false}
+ }finally{
+  saving=false;
+  $('save').disabled=false;
+  if(queued){queued=false;if(dirty)saveCloud()}
+ }
 }
-function changed(){
- cache();
- render();
- save();
+function change(){dirty=true;render();saveCloud()}
+async function signedIn(){
+ $('loginPanel').classList.add('hidden');
+ $('app').classList.remove('hidden');
+ $('account').textContent='👤 '+session.user.email;
+ await loadCloud();
 }
-$('load').onclick=load;
-$('save').onclick=save;
-$('settings').onclick=()=>{
- localStorage.setItem('yq_url',$('url').value.trim());
- localStorage.setItem('yq_key',$('key').value.trim());
- localStorage.setItem('yq_family',$('family').value.trim());
- readCache();
- load();
+$('login').onclick=async()=>{
+ try{
+  $('login').disabled=true;
+  const res=await api('/auth/v1/token?grant_type=password',{
+   method:'POST',
+   body:{email:$('email').value.trim(),password:$('password').value}
+  });
+  if(!res.access_token||!res.user?.id)throw Error('ログイン結果が不正です');
+  session=res;
+  remember();
+  $('password').value='';
+  await signedIn();
+ }catch(e){
+  $('loginStatus').textContent='❌ ログイン失敗：'+e.message;
+ }finally{$('login').disabled=false}
 };
+$('logout').onclick=async()=>{
+ if(dirty&&!confirm('未保存の変更があります。ログアウトしますか？'))return;
+ try{await authed('/auth/v1/logout',{method:'POST'})}catch{}
+ session=null;remember();progress=null;ready=false;dirty=false;
+ $('app').classList.add('hidden');
+ $('loginPanel').classList.remove('hidden');
+};
+$('reload').onclick=loadCloud;
+$('save').onclick=saveCloud;
 $('add').onclick=()=>{
+ if(!ready)return;
  const name=$('mission').value.trim();
  if(!name)return;
  day().missions.push({
-  id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+  id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),
   name,done:false
  });
  $('mission').value='';
- changed();
+ change();
 };
 $('missions').onclick=e=>{
- const btn=e.target.closest('[data-mid]');
- if(!btn)return;
- const m=day().missions.find(x=>x.id===btn.dataset.mid);
+ const b=e.target.closest('[data-id]');
+ if(!b||!ready)return;
+ const m=day().missions.find(m=>m.id===b.dataset.id);
  if(!m||m.done)return;
  m.done=true;
- data.xp=(data.xp||0)+20;
- changed();
+ progress.xp=(progress.xp||0)+20;
+ change();
 };
-$('noMission').onclick=()=>{
- if(day().missions.length&&!confirm('今日のミッションをすべて消しますか？'))return;
+$('none').onclick=()=>{
+ if(!ready)return;
+ if(day().missions.length&&!confirm('今日のミッションを消しますか？'))return;
  day().missions=[];
- changed();
+ change();
 };
-$('reviewSave').onclick=()=>{
+$('review').onclick=()=>{
+ if(!ready)return;
  day().good=$('good').value;
  day().tomorrow=$('tomorrow').value;
- changed();
+ change();
 };
-$('openChest').onclick=()=>alert(
- Math.floor((data.xp||0)/100)+1>=3?
- '🎉 '+(data.gift||'すごい！今日もよくがんばったね！'):
- 'LEVEL 3 まであと少し！'
-);
-function tab(which){
- $('child').classList.toggle('hidden',which!=='child');
- $('parent').classList.toggle('hidden',which!=='parent');
- $('childTab').classList.toggle('active',which==='child');
- $('parentTab').classList.toggle('active',which==='parent');
+$('openChest').onclick=()=>{
+ const level=Math.floor((progress?.xp||0)/100)+1;
+ alert(level>=3?'🎉 '+(progress.gift||'今日もよくがんばったね！'):'LEVEL 3 まであと少し！');
+};
+function tab(parent){
+ $('child').classList.toggle('hidden',parent);
+ $('parent').classList.toggle('hidden',!parent);
+ $('childTab').classList.toggle('active',!parent);
+ $('parentTab').classList.toggle('active',parent);
 }
-$('childTab').onclick=()=>tab('child');
-$('parentTab').onclick=()=>tab('parent');
-const pinKey=()=>`yq_parent_pin_${config().family||'local'}`;
+$('childTab').onclick=()=>tab(false);
+$('parentTab').onclick=()=>tab(true);
+const pinKey=()=>`yq_parent_pin_${session?.user?.id||'local'}`;
 $('unlock').onclick=()=>{
- const saved=localStorage.getItem(pinKey()),given=$('pinEntry').value;
- if(!saved){
-  if(given.length<4){
-   alert('初回は4桁以上の暗証番号を入力してください');
-   return;
-  }
+ const old=localStorage.getItem(pinKey()),given=$('pin').value;
+ if(!old){
+  if(given.length<4)return alert('初回は4桁以上を入力してください');
   localStorage.setItem(pinKey(),given);
- }else if(saved!==given){
-  alert('暗証番号が違います');
-  return;
- }
+ }else if(given!==old)return alert('暗証番号が違います');
  unlocked=true;
  $('locked').classList.add('hidden');
  $('parentContent').classList.remove('hidden');
@@ -417,46 +424,50 @@ $('unlock').onclick=()=>{
 };
 $('setPin').onclick=()=>{
  if(!unlocked)return;
- const pin=$('pinNew').value;
- if(pin.length<4)return alert('4桁以上にしてください');
- localStorage.setItem(pinKey(),pin);
- $('pinNew').value='';
+ const value=$('newPin').value;
+ if(value.length<4)return alert('4桁以上にしてください');
+ localStorage.setItem(pinKey(),value);
+ $('newPin').value='';
  alert('変更しました');
 };
 $('lock').onclick=()=>{
  unlocked=false;
- $('pinEntry').value='';
+ $('pin').value='';
  $('locked').classList.remove('hidden');
  $('parentContent').classList.add('hidden');
- tab('child');
+ tab(false);
 };
-$('setIpad').onclick=()=>{
- if(!unlocked)return;
- data.ipadPassword=$('ipadPassword').value;
- changed();
+$('setCode').onclick=()=>{
+ if(!unlocked||!ready)return;
+ progress.ipadCode=$('ipadCode').value;
+ change();
 };
 $('setGift').onclick=()=>{
- if(!unlocked)return;
- data.gift=$('gift').value;
- data.giftLevel=Number($('giftLevel').value);
- changed();
+ if(!unlocked||!ready)return;
+ progress.gift=$('gift').value;
+ progress.giftLevel=Number($('giftLevel').value);
+ change();
 };
 $('momChecks').onchange=e=>{
- if(!unlocked||!e.target.matches('[data-mom]'))return;
- data.mom[today()]??={};
- data.mom[today()][e.target.dataset.mom]=e.target.checked;
- changed();
+ if(!unlocked||!ready||!e.target.matches('[data-mom]'))return;
+ progress.mom??={};
+ progress.mom[dateKey()]??={};
+ progress.mom[dateKey()][e.target.dataset.mom]=e.target.checked;
+ change();
 };
-window.addEventListener('focus',()=>{
- if(config().url&&config().key&&config().family)load();
-});
-const c=config();
-$('url').value=c.url;
-$('key').value=c.key;
-$('family').value=c.family;
-readCache();
-if(c.url&&c.key&&c.family)load();
-else notice('⚙️ Supabase 接続設定を入力してください。');
+(async()=>{
+ try{
+  session=JSON.parse(localStorage.getItem(sessionKey)||'null');
+  if(session?.refresh_token){
+   await refresh();
+   await signedIn();
+  }
+ }catch(e){
+  session=null;
+  remember();
+  $('loginStatus').textContent='ログインしてください。';
+ }
+})();
 </script>
 </body>
 </html>
