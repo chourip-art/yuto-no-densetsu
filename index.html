@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ユウトの伝説</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101b39;color:white;font-family:-apple-system,sans-serif}main{max-width:520px;margin:auto;padding:20px}.panel{background:#23345c;border:2px solid #526eae;border-radius:20px;padding:18px;margin:15px 0}button,input,select{font:inherit;border-radius:12px;padding:12px;border:0}button{background:#ffcf42;color:#192343;font-weight:bold;cursor:pointer}input,select{width:100%;margin:6px 0;background:white;color:#17213d}.wide{width:100%;margin:7px 0}.muted{color:#c3d0ed}.task{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #50638e}.task span{flex:1}.done{opacity:.55;text-decoration:line-through}.hidden{display:none}h1{text-align:center;color:#ffdf69}h2{font-size:20px}.xp{height:16px;background:#435577;border-radius:20px;overflow:hidden}.xp div{height:100%;background:#ffcf42}.hero{text-align:center;font-size:58px}small{color:#c3d0ed}
+</style>
+</head>
+<body><main>
+<h1>⚡ ユウトの伝説 ⚡</h1>
+<p style="text-align:center">自分で決める、ぼくだけの冒険！</p>
+<section id="home">
+<div class="panel"><h2>冒険の入り口</h2>
+<button class="wide" onclick="show('kid')">🎮 ユウトの冒険</button>
+<button class="wide" onclick="openMom()">👑 お母さんの秘密基地</button></div>
+</section>
+<section id="kid" class="hidden">
+<button onclick="show('home')">← もどる</button>
+<div class="panel">
+<div class="hero">🐲</div>
+<h2 id="level"></h2><p id="points"></p>
+<div class="xp"><div id="bar"></div></div>
+<p class="muted">小さな一歩が、伝説になる！</p>
+</div>
+<div class="panel"><h2>⚔️ 今日のミッション</h2>
+<input id="newtask" placeholder="自分でミッションを決めよう">
+<button class="wide" onclick="addTask()">＋ ミッションを追加</button>
+<div id="tasks"></div>
+</div>
+<div class="panel"><h2>🎁 宝箱</h2><p id="reward"></p></div>
+<div class="panel"><h2>📖 今日のふりかえり</h2>
+<input id="diary" placeholder="今日がんばったこと">
+<button class="wide" onclick="saveDiary()">記録する</button>
+</div></section>
+<section id="mom" class="hidden">
+<button onclick="show('home')">← もどる</button>
+<div class="panel"><h2>👑 お母さんの秘密基地</h2>
+<p id="mompoints"></p>
+<h2>🎁 サプライズ設定</h2>
+<input id="rewardinput" placeholder="ごほうびの名前">
+<input id="rewardlevel" type="number" min="1" placeholder="必要なレベル">
+<button class="wide" onclick="saveReward()">ごほうびを設定</button>
+<h2>🔐 管理用PIN（テスト用）</h2>
+<input id="pininput" type="password" placeholder="新しいPIN">
+<button class="wide" onclick="savePin()">PINを変更</button>
+<h2>📖 成長の記録</h2><div id="history"></div>
+<button class="wide" onclick="exportData()">記録をエクスポート</button>
+</div></section>
+</main>
+<script>
+const key='yuto-legend-demo';
+let data;
+try{data=JSON.parse(localStorage.getItem(key))}catch(e){}
+if(!data)data={xp:0,tasks:[],reward:'秘密のごほうび',rewardLevel:3,pin:'1234',history:[]};
+function save(){localStorage.setItem(key,JSON.stringify(data));render()}
+function show(id){['home','kid','mom'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));render()}
+function level(){return Math.floor(data.xp/100)+1}
+function render(){
+document.getElementById('level').textContent='LEVEL '+level();
+document.getElementById('points').textContent='⭐ '+data.xp+' EXP';
+document.getElementById('bar').style.width=(data.xp%100)+'%';
+document.getElementById('mompoints').textContent='現在 '+data.xp+' EXP / LEVEL '+level();
+document.getElementById('reward').textContent=level()>=data.rewardLevel?'🎉 '+data.reward:'🔒 LEVEL '+data.rewardLevel+' で宝箱が開く！';
+document.getElementById('tasks').innerHTML='';
+data.tasks.forEach((t,i)=>{let div=document.createElement('div');div.className='task';let span=document.createElement('span');span.textContent=t.name;if(t.done)span.className='done';let b=document.createElement('button');b.textContent=t.done?'達成！':'クリア +20';b.disabled=t.done;b.onclick=()=>complete(i);div.append(span,b);document.getElementById('tasks').append(div)});
+document.getElementById('history').textContent=data.history.slice(-12).reverse().join(' ／ ')||'まだ記録がありません';
+}
+function addTask(){let el=document.getElementById('newtask');let name=el.value.trim();if(!name)return;data.tasks.push({name,done:false});el.value='';save()}
+function complete(i){if(data.tasks[i].done)return;data.tasks[i].done=true;data.xp+=20;data.history.push(new Date().toLocaleDateString('ja-JP')+' '+data.tasks[i].name+' 達成');save();alert('ミッションクリア！ +20 EXP ⭐')}
+function saveDiary(){let el=document.getElementById('diary');if(!el.value.trim())return;data.history.push(new Date().toLocaleDateString('ja-JP')+' '+el.value.trim());el.value='';save();alert('記録したよ！')}
+function openMom(){let pin=prompt('お母さんのPINを入力');if(pin===data.pin)show('mom');else if(pin!==null)alert('PINが違います')}
+function saveReward(){let r=document.getElementById('rewardinput').value.trim();let l=Number(document.getElementById('rewardlevel').value);if(!r||!Number.isInteger(l)||l<1)return alert('名前とレベルを入力してね');data.reward=r;data.rewardLevel=l;save();alert('設定しました')}
+function savePin(){let p=document.getElementById('pininput').value;if(!/^\d{4,8}$/.test(p))return alert('4〜8桁の数字を入力');data.pin=p;document.getElementById('pininput').value='';save();alert('テスト用PINを変更しました')}
+function exportData(){let b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='yuto-record.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+render();
+</script></body></html>
