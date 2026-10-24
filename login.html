@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ユウトの伝説｜ログイン</title>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#10172c;color:white;font-family:system-ui,sans-serif}
+.card{box-sizing:border-box;width:min(90%,380px);padding:26px;background:#243452;border:2px solid #5c7cff;border-radius:24px;text-align:center}
+h1{color:#ffe16b}input,button{box-sizing:border-box;width:100%;padding:14px;margin:8px 0;border-radius:12px;font-size:16px}
+input{border:0}button{border:0;background:#ffcf42;font-weight:bold}#message{min-height:24px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>⚡ ユウトの伝説</h1>
+<p>🎮 家族だけの冒険へ！</p>
+<form id="loginForm">
+<input id="email" type="email" placeholder="メールアドレス" autocomplete="username" required>
+<input id="password" type="password" placeholder="パスワード" autocomplete="current-password" required>
+<button type="submit">冒険をはじめる！</button>
+</form>
+<p id="message" role="status"></p>
+</div>
+<script type="module">
+import {createClient} from "https://esm.sh/@supabase/supabase-js@2";
+const URL="https://dodziozbzggubpfncpzs.supabase.co";
+const KEY="sb_publishable_VEXNSeo4GrpEQ8W5WAZWdw_UGJhBhF8";
+const message=document.getElementById("message");
+const form=document.getElementById("loginForm");
+form.addEventListener("submit",async(event)=>{
+event.preventDefault();
+if(URL.startsWith("YOUR_")||KEY.startsWith("YOUR_")){
+message.textContent="接続設定がまだ完了していません。";
+return;
+}
+const client=createClient(URL,KEY);
+message.textContent="ログイン中…";
+const {error}=await client.auth.signInWithPassword({
+email:document.getElementById("email").value.trim(),
+password:document.getElementById("password").value
+});
+message.textContent=error?"ログインできませんでした。入力内容をご確認ください。":"ログイン成功！🎉";
+});
+</script>
+</body>
+</html>
