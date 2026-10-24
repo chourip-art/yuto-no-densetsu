@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ja">
 <head>
@@ -5,74 +6,431 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ユウトの伝説</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#101b39;color:white;font-family:-apple-system,sans-serif}main{max-width:520px;margin:auto;padding:20px}.panel{background:#23345c;border:2px solid #526eae;border-radius:20px;padding:18px;margin:15px 0}button,input,select{font:inherit;border-radius:12px;padding:12px;border:0}button{background:#ffcf42;color:#192343;font-weight:bold;cursor:pointer}input,select{width:100%;margin:6px 0;background:white;color:#17213d}.wide{width:100%;margin:7px 0}.muted{color:#c3d0ed}.task{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #50638e}.task span{flex:1}.done{opacity:.55;text-decoration:line-through}.hidden{display:none}h1{text-align:center;color:#ffdf69}h2{font-size:20px}.xp{height:16px;background:#435577;border-radius:20px;overflow:hidden}.xp div{height:100%;background:#ffcf42}.hero{text-align:center;font-size:58px}small{color:#c3d0ed}
+*{box-sizing:border-box}
+body{margin:0;background:#101b39;color:white;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+main{max-width:520px;margin:auto;padding:20px}
+h1{text-align:center;color:#ffdf69}
+h2{font-size:20px}
+.panel{background:#23345c;border:2px solid #526eae;border-radius:20px;padding:18px;margin:15px 0}
+button,input{font:inherit;border-radius:12px;padding:12px;border:0}
+button{background:#ffcf42;color:#192343;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+input{width:100%;margin:6px 0;background:white;color:#17213d}
+.wide{width:100%;margin:7px 0}
+.muted{color:#c3d0ed}
+.hidden{display:none!important}
+.hero{text-align:center;font-size:60px}
+.xp{height:16px;background:#435577;border-radius:20px;overflow:hidden}
+.xp div{height:100%;background:#ffcf42}
+.task{display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #50638e}
+.task span{flex:1;overflow-wrap:anywhere}
+.done{opacity:.6;text-decoration:line-through}
+.status{padding:12px;border-radius:12px;background:#34476d;margin:12px 0;overflow-wrap:anywhere}
+.error{background:#743a46}
+small{color:#c3d0ed}
 </style>
 </head>
-<body><main>
+<body>
+<main>
 <h1>⚡ ユウトの伝説 ⚡</h1>
 <p style="text-align:center">自分で決める、ぼくだけの冒険！</p>
-<section id="home">
-<div class="panel"><h2>冒険の入り口</h2>
-<button class="wide" onclick="show('kid')">🎮 ユウトの冒険</button>
-<button class="wide" onclick="openMom()">👑 お母さんの秘密基地</button></div>
+
+<div id="status" class="status">
+接続を確認しています…
+</div>
+
+<section id="login" class="panel hidden">
+<h2>🔐 家族ログイン</h2>
+<input id="email" type="email" autocomplete="username" placeholder="メールアドレス">
+<input id="password" type="password" autocomplete="current-password" placeholder="パスワード">
+<button id="loginBtn" class="wide" onclick="login()">冒険をはじめる！</button>
+<p class="muted">登録済みの家族アカウントでログインしてください。</p>
 </section>
-<section id="kid" class="hidden">
-<button onclick="show('home')">← もどる</button>
+
+<section id="app" class="hidden">
 <div class="panel">
+<h2>🐲 冒険のステータス</h2>
 <div class="hero">🐲</div>
-<h2 id="level"></h2><p id="points"></p>
+<h2 id="level">LEVEL 1</h2>
+<p id="points">⭐ 0 EXP</p>
 <div class="xp"><div id="bar"></div></div>
 <p class="muted">小さな一歩が、伝説になる！</p>
+<button class="wide" onclick="refreshData()">🔄 最新データを読み込む</button>
 </div>
-<div class="panel"><h2>⚔️ 今日のミッション</h2>
-<input id="newtask" placeholder="自分でミッションを決めよう">
+
+<div class="panel">
+<h2>⚔️ 今日のミッション</h2>
+<p id="today" class="muted"></p>
+<input id="newtask" maxlength="100" placeholder="自分でミッションを決めよう">
 <button class="wide" onclick="addTask()">＋ ミッションを追加</button>
 <div id="tasks"></div>
 </div>
-<div class="panel"><h2>🎁 宝箱</h2><p id="reward"></p></div>
-<div class="panel"><h2>📖 今日のふりかえり</h2>
-<input id="diary" placeholder="今日がんばったこと">
+
+<div class="panel">
+<h2>🎁 宝箱</h2>
+<p id="reward">🔒 LEVEL 3 で宝箱が開く！</p>
+</div>
+
+<div class="panel">
+<h2>📖 今日のふりかえり</h2>
+<input id="diary" maxlength="300" placeholder="今日がんばったこと">
 <button class="wide" onclick="saveDiary()">記録する</button>
-</div></section>
-<section id="mom" class="hidden">
-<button onclick="show('home')">← もどる</button>
-<div class="panel"><h2>👑 お母さんの秘密基地</h2>
-<p id="mompoints"></p>
-<h2>🎁 サプライズ設定</h2>
-<input id="rewardinput" placeholder="ごほうびの名前">
-<input id="rewardlevel" type="number" min="1" placeholder="必要なレベル">
-<button class="wide" onclick="saveReward()">ごほうびを設定</button>
-<h2>🔐 管理用PIN（テスト用）</h2>
-<input id="pininput" type="password" placeholder="新しいPIN">
-<button class="wide" onclick="savePin()">PINを変更</button>
-<h2>📖 成長の記録</h2><div id="history"></div>
-<button class="wide" onclick="exportData()">記録をエクスポート</button>
-</div></section>
+<h2>🌱 成長の記録</h2>
+<div id="history" class="muted"></div>
+</div>
+
+<div class="panel">
+<h2>☁️ データ管理</h2>
+<p class="muted">同じアカウントでログインすると、別の端末でも記録を読み込めます。</p>
+<button class="wide" onclick="exportData()">📥 記録をバックアップ</button>
+<button class="wide" onclick="logout()">ログアウト</button>
+</div>
+</section>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-const key='yuto-legend-demo';
-let data;
-try{data=JSON.parse(localStorage.getItem(key))}catch(e){}
-if(!data)data={xp:0,tasks:[],reward:'秘密のごほうび',rewardLevel:3,pin:'1234',history:[]};
-function save(){localStorage.setItem(key,JSON.stringify(data));render()}
-function show(id){['home','kid','mom'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));render()}
-function level(){return Math.floor(data.xp/100)+1}
-function render(){
-document.getElementById('level').textContent='LEVEL '+level();
-document.getElementById('points').textContent='⭐ '+data.xp+' EXP';
-document.getElementById('bar').style.width=(data.xp%100)+'%';
-document.getElementById('mompoints').textContent='現在 '+data.xp+' EXP / LEVEL '+level();
-document.getElementById('reward').textContent=level()>=data.rewardLevel?'🎉 '+data.reward:'🔒 LEVEL '+data.rewardLevel+' で宝箱が開く！';
-document.getElementById('tasks').innerHTML='';
-data.tasks.forEach((t,i)=>{let div=document.createElement('div');div.className='task';let span=document.createElement('span');span.textContent=t.name;if(t.done)span.className='done';let b=document.createElement('button');b.textContent=t.done?'達成！':'クリア +20';b.disabled=t.done;b.onclick=()=>complete(i);div.append(span,b);document.getElementById('tasks').append(div)});
-document.getElementById('history').textContent=data.history.slice(-12).reverse().join(' ／ ')||'まだ記録がありません';
+const SUPABASE_URL =
+'https://dodziozbzggubpfncpzs.supabase.co';
+
+const SUPABASE_KEY =
+'sb_publishable_VEXNSeo4GrpEQ8W5WAZWdw_UGJhBhF8';
+
+const DEFAULT_DATA = () => ({
+  xp: 0,
+  tasks: [],
+  history: []
+});
+
+let db = null;
+let currentUser = null;
+let data = DEFAULT_DATA();
+let busy = false;
+
+const el = id => document.getElementById(id);
+
+function message(text, error=false) {
+  el('status').textContent = text;
+  el('status').classList.toggle('error',error);
 }
-function addTask(){let el=document.getElementById('newtask');let name=el.value.trim();if(!name)return;data.tasks.push({name,done:false});el.value='';save()}
-function complete(i){if(data.tasks[i].done)return;data.tasks[i].done=true;data.xp+=20;data.history.push(new Date().toLocaleDateString('ja-JP')+' '+data.tasks[i].name+' 達成');save();alert('ミッションクリア！ +20 EXP ⭐')}
-function saveDiary(){let el=document.getElementById('diary');if(!el.value.trim())return;data.history.push(new Date().toLocaleDateString('ja-JP')+' '+el.value.trim());el.value='';save();alert('記録したよ！')}
-function openMom(){let pin=prompt('お母さんのPINを入力');if(pin===data.pin)show('mom');else if(pin!==null)alert('PINが違います')}
-function saveReward(){let r=document.getElementById('rewardinput').value.trim();let l=Number(document.getElementById('rewardlevel').value);if(!r||!Number.isInteger(l)||l<1)return alert('名前とレベルを入力してね');data.reward=r;data.rewardLevel=l;save();alert('設定しました')}
-function savePin(){let p=document.getElementById('pininput').value;if(!/^\d{4,8}$/.test(p))return alert('4〜8桁の数字を入力');data.pin=p;document.getElementById('pininput').value='';save();alert('テスト用PINを変更しました')}
-function exportData(){let b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='yuto-record.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+
+function todayKey() {
+  return new Intl.DateTimeFormat('en-CA',{
+    timeZone:'Asia/Tokyo',
+    year:'numeric',
+    month:'2-digit',
+    day:'2-digit'
+  }).format(new Date());
+}
+
+function displayDate() {
+  return new Intl.DateTimeFormat('ja-JP',{
+    timeZone:'Asia/Tokyo',
+    year:'numeric',
+    month:'long',
+    day:'numeric'
+  }).format(new Date());
+}
+
+function level() {
+  return Math.floor(data.xp / 100) + 1;
+}
+
+function setBusy(value) {
+  busy = value;
+  document.querySelectorAll('#app button').forEach(b=>{
+    b.disabled=value;
+  });
+}
+
+function normalize(value) {
+  const v = value && typeof value==='object'
+    ? value : {};
+  return {
+    xp:Number.isFinite(v.xp) ? v.xp : 0,
+    tasks:Array.isArray(v.tasks) ? v.tasks : [],
+    history:Array.isArray(v.history) ? v.history : []
+  };
+}
+
+function render() {
+  el('level').textContent='LEVEL '+level();
+  el('points').textContent='⭐ '+data.xp+' EXP';
+  el('bar').style.width=(data.xp%100)+'%';
+  el('today').textContent=displayDate();
+
+  el('reward').textContent=level()>=3
+    ? '🎉 LEVEL 3 達成！'
+    : '🔒 LEVEL 3 で宝箱が開く！';
+
+  const box=el('tasks');
+  box.replaceChildren();
+
+  const todayTasks=data.tasks
+    .map((task,index)=>({task,index}))
+    .filter(item=>item.task.date===todayKey());
+
+  if(todayTasks.length===0) {
+    const p=document.createElement('p');
+    p.className='muted';
+    p.textContent='今日はまだミッションがありません。';
+    box.appendChild(p);
+  }
+
+  todayTasks.forEach(({task,index})=>{
+    const div=document.createElement('div');
+    div.className='task';
+
+    const span=document.createElement('span');
+    span.textContent=task.name;
+    if(task.done)span.className='done';
+
+    const button=document.createElement('button');
+    button.textContent=task.done?'達成！':'クリア +20';
+    button.disabled=task.done||busy;
+    button.onclick=()=>completeTask(index);
+
+    div.append(span,button);
+    box.appendChild(div);
+  });
+
+  const history=el('history');
+  history.replaceChildren();
+
+  if(data.history.length===0) {
+    history.textContent='まだ記録がありません';
+  } else {
+    data.history.slice(-12).reverse().forEach(entry=>{
+      const p=document.createElement('p');
+      p.textContent=String(entry);
+      history.appendChild(p);
+    });
+  }
+}
+
+async function cloudRead() {
+  const {data:row,error}=await db
+    .from('family_progress')
+    .select('progress')
+    .eq('user_id',currentUser.id)
+    .maybeSingle();
+
+  if(error)throw error;
+  return normalize(row?.progress);
+}
+
+async function cloudWrite(nextData) {
+  const {error}=await db
+    .from('family_progress')
+    .upsert({
+      user_id:currentUser.id,
+      progress:nextData,
+      updated_at:new Date().toISOString()
+    },{onConflict:'user_id'});
+
+  if(error)throw error;
+}
+
+async function refreshData() {
+  if(!currentUser||busy)return;
+  setBusy(true);
+  message('☁️ 最新データを読み込んでいます…');
+
+  try {
+    data=await cloudRead();
+    message('☁️ 最新データを読み込みました');
+  } catch(error) {
+    message('読み込み失敗: '+error.message,true);
+  } finally {
+    setBusy(false);
+    render();
+  }
+}
+
+async function changeData(change) {
+  if(!currentUser||busy)return false;
+  setBusy(true);
+  message('☁️ 保存しています…');
+
+  try {
+    const latest=await cloudRead();
+    const next=structuredClone(latest);
+    const result=change(next);
+
+    if(result===false) {
+      data=latest;
+      message('変更はありません');
+      return false;
+    }
+
+    await cloudWrite(next);
+    data=next;
+    message('☁️ 保存成功！');
+    return true;
+  } catch(error) {
+    message('保存失敗: '+error.message,true);
+    alert('クラウドに保存できませんでした。通信状態を確認してください。');
+    return false;
+  } finally {
+    setBusy(false);
+    render();
+  }
+}
+
+async function addTask() {
+  const input=el('newtask');
+  const name=input.value.trim();
+  if(!name)return;
+
+  const success=await changeData(next=>{
+    next.tasks.push({
+      id:crypto.randomUUID(),
+      name,
+      date:todayKey(),
+      done:false
+    });
+  });
+
+  if(success)input.value='';
+}
+
+async function completeTask(index) {
+  const task=data.tasks[index];
+  if(!task||task.done)return;
+
+  const success=await changeData(next=>{
+    const target=next.tasks.find(t=>t.id===task.id);
+    if(!target||target.done)return false;
+
+    target.done=true;
+    next.xp+=20;
+    next.history.push(
+      displayDate()+' '+target.name+' 達成'
+    );
+  });
+
+  if(success)alert('ミッションクリア！ +20 EXP ⭐');
+}
+
+async function saveDiary() {
+  const input=el('diary');
+  const note=input.value.trim();
+  if(!note)return;
+
+  const success=await changeData(next=>{
+    next.history.push(displayDate()+' '+note);
+  });
+
+  if(success) {
+    input.value='';
+    alert('記録したよ！');
+  }
+}
+
+async function login() {
+  if(!db)return;
+
+  const email=el('email').value.trim();
+  const password=el('password').value;
+
+  if(!email||!password) {
+    message('メールアドレスとパスワードを入力してください',true);
+    return;
+  }
+
+  el('loginBtn').disabled=true;
+  message('ログインしています…');
+
+  try {
+    const {data:result,error}=await db.auth
+      .signInWithPassword({email,password});
+
+    if(error)throw error;
+    if(!result.user)throw new Error('ログインできませんでした');
+
+    currentUser=result.user;
+    el('password').value='';
+    el('login').classList.add('hidden');
+    el('app').classList.remove('hidden');
+    await refreshData();
+  } catch(error) {
+    message('ログイン失敗: '+error.message,true);
+  } finally {
+    el('loginBtn').disabled=false;
+  }
+}
+
+async function logout() {
+  if(!db)return;
+
+  const {error}=await db.auth.signOut();
+
+  if(error) {
+    message('ログアウト失敗: '+error.message,true);
+    return;
+  }
+
+  currentUser=null;
+  data=DEFAULT_DATA();
+  el('app').classList.add('hidden');
+  el('login').classList.remove('hidden');
+  message('ログアウトしました');
+}
+
+function exportData() {
+  const blob=new Blob(
+    [JSON.stringify(data,null,2)],
+    {type:'application/json'}
+  );
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='yuto-backup.json';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+async function init() {
+  try {
+    if(SUPABASE_KEY==='YOUR_PUBLISHABLE_KEY') {
+      throw new Error('Publishable key が未設定です');
+    }
+
+    if(!window.supabase) {
+      throw new Error('Supabase ライブラリを読み込めませんでした');
+    }
+
+    db=window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const result=await Promise.race([
+      db.auth.getUser(),
+      new Promise((_,reject)=>setTimeout(
+        ()=>reject(new Error('接続がタイムアウトしました')),
+        12000
+      ))
+    ]);
+
+    if(result.error)throw result.error;
+
+    if(result.data.user) {
+      currentUser=result.data.user;
+      el('app').classList.remove('hidden');
+      await refreshData();
+    } else {
+      el('login').classList.remove('hidden');
+      message('ログインしてください');
+    }
+  } catch(error) {
+    el('login').classList.remove('hidden');
+    message('接続エラー: '+error.message,true);
+  }
+}
+
 render();
-</script></body></html>
+init();
+</script>
+</body>
+</html>
